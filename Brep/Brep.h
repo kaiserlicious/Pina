@@ -23,7 +23,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 
-
 #define THIS Brep
 
 namespace PINA_NAMESPACE{
@@ -31,10 +30,6 @@ namespace PINA_NAMESPACE{
 class Source;
 class Vertices;
 class Extra;
-
-
-
-
 class Curves;
 class Surface_curves;
 class Surfaces;
@@ -44,9 +39,6 @@ class Faces;
 class Pcurves;
 class Shells;
 class Solids;
-
-
-
 
 /**
 @brief Describes a boundary representation (B-rep) structure.
@@ -83,10 +75,6 @@ private:
 
 };
 
-
-
-
 }/*PINA_NAMESPACE*/
 #undef THIS
-
 #endif /*COLLADA_BREP_H*/
