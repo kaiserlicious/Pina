@@ -1,0 +1,129 @@
+
+
+cmake_minimum_required (VERSION 2.8)
+project (Pina)
+
+#set the version number for cpack
+set(CPACK_PACKAGE_VERSION_MAJOR "0")
+set(CPACK_PACKAGE_VERSION_MINOR "1")
+set(CPACK_PACKAGE_VERSION_PATCH "0")
+
+#package system
+INCLUDE(CPack)
+
+#configuration
+include(CMakeConfig.txt)
+configure_file(Config.h.cmake ${CMAKE_SOURCE_DIR}/Config.h)
+
+#source files
+include(CMakeSources.txt)
+
+SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_ESSENTIAL})
+SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_ESSENTIAL})
+
+SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_CORE})
+SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_CORE})
+
+SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_ABILITIES})
+SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_ABILITIES})
+
+SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_LOG})
+SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_LOG})
+
+SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_TEMPLATES})
+SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_TEMPLATES})
+
+SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_TYPES})
+SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_TYPES})
+
+SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_MATH})
+SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_MATH})
+
+SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_TIXML})
+SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_TIXML})
+
+SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_UTILS})
+SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_UTILS})
+
+SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_TYPEINFO})
+SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_TYPEINFO})
+
+#Option FX
+if(NOT FX)
+  message("Support for FooBar FX will NOT be included")
+else()
+  SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_FX})
+  SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_FX})
+endif()
+
+#Option PHYSICS
+if(NOT PHYSICS)
+  message("Support for FooBar Pysics will NOT be included")
+else()
+  SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_PHYSICS})
+  SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_PHYSICS})
+endif()
+
+#Option BREP
+if(NOT BREP)
+  message("Support for FooBar B-Rep will NOT be included")
+else()
+  SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_BREP})
+  SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_BREP})
+endif()
+
+#Option KINEMATICS
+if(NOT KINEMATICS)
+  message("Support for FooBar Kinematics will NOT be included")
+else()
+  SET(PINA_SRC ${PINA_SRC} ${PINA_SRC_KINEMATICS})
+  SET(PINA_HEADERS ${PINA_HEADERS} ${PINA_HEADERS_KINEMATICS})
+endif()
+
+#target to build the library
+add_library(pina SHARED ${PINA_SRC} ${PINA_HEADERS})
+
+#install lib and headers
+message("install prefix is: ${CMAKE_INSTALL_PREFIX}")
+
+install(TARGETS pina LIBRARY DESTINATION lib)
+
+install(FILES ${PINA_HEADERS_ESSENTIAL} DESTINATION include/Pina)
+
+install(FILES ${PINA_HEADERS_CORE} DESTINATION include/Pina/Core)
+
+install(FILES ${PINA_HEADERS_ABILITIES} DESTINATION include/Pina/Abilities)
+
+install(FILES ${PINA_HEADERS_LOG} DESTINATION include/Pina/Log)
+
+install(FILES ${PINA_HEADERS_TEMPLATES} DESTINATION include/Pina/Templates)
+
+install(FILES ${PINA_HEADERS_TYPES} DESTINATION include/Pina/Types)
+
+install(FILES ${PINA_HEADERS_MATH} DESTINATION include/Pina/Math)
+
+install(FILES ${PINA_HEADERS_TIXML} DESTINATION include/Pina/Tinyxml)
+
+install(FILES ${PINA_HEADERS_UTILS} DESTINATION include/Pina/Utils)
+
+install(FILES ${PINA_HEADERS_TYPEINFO} DESTINATION include/Pina/TypeInfo)
+
+if(FX)
+  install(FILES ${PINA_HEADERS_FX} DESTINATION include/Pina/FX)
+endif()
+
+if(PHYSICS)
+  install(FILES ${PINA_HEADERS_PHYSICS} DESTINATION include/Pina/Physics)
+endif()
+
+if(BREP)
+  install(FILES ${PINA_HEADERS_BREP} DESTINATION include/Pina/Brep)
+endif()
+
+if(KINEMATICS)
+  install(FILES ${PINA_HEADERS_KINEMATICS} DESTINATION include/Pina/Kinematics)
+endif()
+
+
+
+
