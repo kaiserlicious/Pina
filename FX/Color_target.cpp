@@ -24,12 +24,12 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "../Core/Param_reference.h"
 #include "Instance_image.h"
 
-#if PINA_FX
+
 #define THIS Color_target
 namespace PINA_NAMESPACE{
-#if PINA_SUBNAMESPACES
-//namespace PINA_FX_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
 
@@ -59,9 +59,9 @@ const std::string THIS::Name = "color_target";
 THIS::~THIS(){
 }
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_FX_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_FX*/
+

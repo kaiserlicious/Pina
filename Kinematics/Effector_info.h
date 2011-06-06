@@ -23,7 +23,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 
-#if PINA_KINEMATICS
+
 #define THIS Effector_info
 
 namespace PINA_NAMESPACE{
@@ -31,8 +31,8 @@ namespace PINA_NAMESPACE{
 class Newparam;
 class Setparam;
 
-#if PINA_SUBNAMESPACES
-//namespace PINA_KINEMATICS_NAMESPACE{
+
+
 
 class Bind_kinematics;
 class Speed;
@@ -40,7 +40,7 @@ class Acceleration;
 class Deceleration;
 class Jerk;
 
-#endif /*PINA_SUBNAMESPACES*/
+
 
 
 /**
@@ -75,10 +75,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_KINEMATICS_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_KINEMATICS*/
+
 #endif /*COLLADA_EFFECTOR_INFO_H*/

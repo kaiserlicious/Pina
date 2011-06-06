@@ -25,12 +25,12 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "Kinematics_scene.h"
 #include "../Core/Extra.h"
 
-#if PINA_KINEMATICS
+
 #define THIS Library_kinematics_scenes
 namespace PINA_NAMESPACE{
-#if PINA_SUBNAMESPACES
-//namespace PINA_KINEMATICS_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
 
@@ -58,10 +58,10 @@ const std::string THIS::Name = "library_kinematics_scenes";
 THIS::~THIS(){
 }
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_KINEMATICS_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_KINEMATICS*/
+
 

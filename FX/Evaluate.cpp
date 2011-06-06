@@ -29,12 +29,12 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "Stencil_clear.h"
 #include "Draw.h"
 
-#if PINA_FX
+
 #define THIS Evaluate
 namespace PINA_NAMESPACE{
-#if PINA_SUBNAMESPACES
-//namespace PINA_FX_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
 
@@ -60,9 +60,9 @@ const std::string THIS::Name = "evaluate";
 THIS::~THIS(){
 }
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_FX_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_FX*/
+

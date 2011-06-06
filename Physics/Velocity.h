@@ -24,13 +24,13 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "../Element.h"
 #include "../Math/Vector.h"
 
-#if PINA_PHYSICS
+
 #define THIS Velocity
 
 namespace PINA_NAMESPACE{
-#if PINA_SUBNAMESPACES
-//namespace PINA_PHYSICS_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 
 /**
@@ -56,11 +56,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_PHYSICS_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_PHYSICS*/
 #endif /*COLLADA_VELOCITY_H*/
 

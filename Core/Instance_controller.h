@@ -23,9 +23,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Abilities/IsInstance.h"
 #include "Skeleton.h"
-#if PINA_FX
 #include "../FX/Bind_material.h" //(in FX)
-#endif
 #include "Extra.h"
 #include "Controller.h"
 
@@ -45,9 +43,8 @@ class THIS: public Element{
   STATIC_CHECKED_FUNCTIONS;
   typedef TL::Cons<
   Skeleton,
-  #if PINA_FX
+  
   Bind_material, //(in FX)
-  #endif
   Extra
   >::List Types;
 

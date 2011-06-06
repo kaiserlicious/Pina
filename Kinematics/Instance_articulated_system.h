@@ -23,7 +23,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 
-#if PINA_KINEMATICS
+
 #define THIS Instance_articulated_system
 
 namespace PINA_NAMESPACE{
@@ -32,9 +32,9 @@ class Setparam;
 class Newparam;
 class Extra;
 
-#if PINA_SUBNAMESPACES
-//namespace PINA_KINEMATICS_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 class Bind_kinematics;
 
@@ -68,10 +68,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_KINEMATICS_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_KINEMATICS*/
+
 #endif /*COLLADA_INSTANCE_ARTICULATED_SYSTEM_H*/

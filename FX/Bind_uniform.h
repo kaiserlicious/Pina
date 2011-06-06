@@ -25,16 +25,16 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "../Types/SimpleTypes.h"
 #include "../Templates/TypelistConstructor64to128.h"
 
-#if PINA_FX
+
 #define THIS Bind_uniform
 
 namespace PINA_NAMESPACE{
 
 class Param_reference;
 
-#if PINA_SUBNAMESPACES
-//namespace PINA_FX_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 /**
 @brief
@@ -62,10 +62,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_FX_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_FX*/
+
 #endif /*COLLADA_BIND_UNIFORM_H*/

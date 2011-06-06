@@ -23,13 +23,13 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 
-#if PINA_FX
+
 #define THIS Create_3d
 
 namespace PINA_NAMESPACE{
-#if PINA_SUBNAMESPACES
-//namespace PINA_FX_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 class Size_exact;
 class Size_ratio;
@@ -69,10 +69,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_FX_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_FX*/
+
 #endif /*COLLADA_CREATE_3D_H*/

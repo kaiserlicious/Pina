@@ -147,7 +147,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Znear.h"
 
 /* FX elements*/
-#if PINA_FX
+FooBarFooBar
 #include "FX/Alpha.h"
 #include "FX/Ambient_fx.h"
 #include "FX/Annotate.h"
@@ -260,4 +260,4 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "FX/Wrap_p.h"
 #include "FX/Wrap_s.h"
 #include "FX/Wrap_t.h"
-#endif /*PINA_FX*/
+FooBarFooBar

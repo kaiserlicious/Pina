@@ -26,12 +26,12 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "Instance_rigid_body.h"
 #include "Instance_rigid_constraint.h"
 
-#if PINA_PHYSICS
+
 #define THIS Instance_physics_model
 namespace PINA_NAMESPACE{
-#if PINA_SUBNAMESPACES
-//namespace PINA_PHYSICS_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
 
@@ -61,10 +61,10 @@ const std::string THIS::Name = "instance_physics_model";
 THIS::~THIS(){
 }
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_PHYSICS_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_PHYSICS*/
+
 

@@ -25,13 +25,13 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "../Types/SimpleTypes.h"
 #include "../Templates/TypelistConstructor64to128.h"
 
-#if PINA_FX
+
 #define THIS Array
 
 namespace PINA_NAMESPACE{
-#if PINA_SUBNAMESPACES
-//namespace PINA_FX_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 class Sampler1D;
 class Sampler2D;
@@ -70,10 +70,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_FX_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_FX*/
+
 #endif /*COLLADA_ARRAY_H*/

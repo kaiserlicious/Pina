@@ -22,9 +22,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define COLLADA_INSTANCE_GEOMETRY_H
 
 #include "../Abilities/IsInstance.h"
-#if PINA_FX
 #include "../FX/Bind_material.h" //(in FX)
-#endif
 #include "Extra.h"
 #include "Geometry.h"
 
@@ -43,9 +41,8 @@ class THIS: public Element, public IsInstance<Geometry>{
   void order();
   STATIC_CHECKED_FUNCTIONS;
   typedef TL::Cons<
-  #if PINA_FX
+  
   Bind_material, //(FX)
-  #endif
   Extra
   >::List Types;
 

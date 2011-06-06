@@ -21,12 +21,12 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "Wrap_t.h"
 #include "../Templates/Ordering.h"
 
-#if PINA_FX
+
 #define THIS Wrap_t
 namespace PINA_NAMESPACE{
-#if PINA_SUBNAMESPACES
-//namespace PINA_FX_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
 
@@ -96,9 +96,9 @@ TiXmlElement* THIS::toTiXmlElement(){
   return element;
 }
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_FX_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_FX*/
+

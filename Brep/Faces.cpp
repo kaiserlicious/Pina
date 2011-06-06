@@ -26,12 +26,12 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "../Core/P.h"
 #include "../Core/Extra.h"
 
-#if PINA_BREP
+
 #define THIS Faces
 namespace PINA_NAMESPACE{
-#if PINA_SUBNAMESPACES
-//namespace PINA_BREP_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
 
@@ -60,10 +60,10 @@ const std::string THIS::Name = "faces";
 THIS::~THIS(){
 }
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_BREP_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_BREP*/
+
 

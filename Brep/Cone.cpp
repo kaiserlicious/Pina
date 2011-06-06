@@ -20,18 +20,17 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Cone.h"
 #include "../Templates/Ordering.h"
-
 #include "../Physics/Radius.h"
 #include "Angle.h"
 #include "../Core/Extra.h"
 
 
-#if PINA_BREP
+
 #define THIS Cone
 namespace PINA_NAMESPACE{
-#if PINA_SUBNAMESPACES
-//namespace PINA_BREP_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
 
@@ -57,10 +56,10 @@ const std::string THIS::Name = "cone";
 THIS::~THIS(){
 }
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_BREP_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_BREP*/
+
 

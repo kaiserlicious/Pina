@@ -23,7 +23,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 
-#if PINA_PHYSICS
+
 #define THIS Rigid_body
 
 namespace PINA_NAMESPACE{
@@ -34,9 +34,9 @@ class Extra;
 class Translate;
 class Rotate;
 
-#if PINA_SUBNAMESPACES
-//namespace PINA_PHYSICS_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 class Dynamic;
 class Mass;
@@ -87,10 +87,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_PHYSICS_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_FX*/
+
 #endif /*COLLADA_RIGID_BODY_H*/

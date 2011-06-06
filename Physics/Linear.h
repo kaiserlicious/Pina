@@ -23,18 +23,18 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 
-#if PINA_PHYSICS
+
 #define THIS Linear
 
 namespace PINA_NAMESPACE{
-#if PINA_SUBNAMESPACES
-//namespace PINA_PHYSICS_NAMESPACE{
+
+
   class Min;
   class Max;
   class Stiffness;
   class Damping;
   class Target_value;
-#endif /*PINA_SUBNAMESPACES*/
+
 
 
 /**
@@ -65,10 +65,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_PHYSICS_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_FX*/
+
 #endif /*COLLADA_LINEAR_H*/

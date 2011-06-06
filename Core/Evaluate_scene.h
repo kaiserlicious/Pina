@@ -23,9 +23,8 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 #include "Asset.h"
-#if PINA_FX
+
 #include "../FX/Render.h" //in FX
-#endif
 #include "Extra.h"
 
 /**
@@ -61,3 +60,4 @@ class THIS: public Element{
 }/*PINA_NAMESPACE*/
 #undef THIS
 #endif
+

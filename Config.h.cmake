@@ -6,15 +6,6 @@
 
 /* namespaces to use */
 #define PINA_NAMESPACE Pina
-#define PINA_SUBNAMESPACES ${PINA_SUBNAMESPACES}
-
-#define PINA_FX ${FX}
-#define PINA_PHYSICS ${PHYSICS}
-#define PINA_BREP ${BREP}
-#define PINA_KINEMATICS ${KINEMATICS}
-
-/* Prefix to use for classes */
-#define PINA_PREFIX ${PINA_PREFIX}
 
 /* allow undefined elements? */
 #define PINA_ALLOW_UNDEFINED true

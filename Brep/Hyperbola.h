@@ -23,7 +23,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 
-#if PINA_BREP
+
 #define THIS Hyperbola
 
 namespace PINA_NAMESPACE{
@@ -31,9 +31,9 @@ namespace PINA_NAMESPACE{
 class Radius;
 class Extra;
 
-#if PINA_SUBNAMESPACES
-//namespace PINA_BREP_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 
 /**
@@ -61,10 +61,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_BREP_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_BREP*/
+
 #endif /*COLLADA_HYPERBOLA_H*/

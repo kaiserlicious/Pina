@@ -23,7 +23,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 
-#if PINA_FX
+
 #define THIS Technique_fx
 
 namespace PINA_NAMESPACE{
@@ -31,9 +31,9 @@ namespace PINA_NAMESPACE{
 class Extra;
 class Asset;
 
-#if PINA_SUBNAMESPACES
-//namespace PINA_FX_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 class Annotate;
 class Blinn;
@@ -75,10 +75,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_FX_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_FX*/
+
 #endif /*COLLADA_TECHNIQUE_FX_H*/

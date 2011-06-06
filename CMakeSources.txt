@@ -1,11 +1,11 @@
 # very basic source files for pina
-SET(PINA_SRC_ESSENTIAL
+SET(PINA_SRC_BASE
 Element.cpp
 Document.cpp
 )
 
 # very basic header files for pina
-SET(PINA_HEADERS_ESSENTIAL
+SET(PINA_HEADERS_BASE
 Element.h
 Document.h
 Pina.h
@@ -392,8 +392,6 @@ FX/Emission.cpp
 FX/Evaluate.cpp
 FX/Exact.cpp
 FX/Format.cpp
-FX/Fx_common_color_or_texture_type.cpp
-FX/Fx_sampler_common.cpp
 FX/Hex.cpp
 FX/Hint.cpp
 FX/Image.cpp
@@ -509,8 +507,6 @@ FX/Emission.h
 FX/Evaluate.h
 FX/Exact.h
 FX/Format.h
-FX/Fx_common_color_or_texture_type.h
-FX/Fx_sampler_common.h
 FX/Hex.h
 FX/Hint.h
 FX/Image.h

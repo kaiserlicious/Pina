@@ -23,7 +23,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 
-#if PINA_PHYSICS
+
 #define THIS Library_joints
 
 namespace PINA_NAMESPACE{
@@ -31,9 +31,9 @@ namespace PINA_NAMESPACE{
 class Asset;
 class Extra;
 
-#if PINA_SUBNAMESPACES
-//namespace PINA_PHYSICS_NAMESPACE{
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 
 class Joint;
 
@@ -65,10 +65,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_PHYSICS_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_FX*/
+
 #endif /*COLLADA_LIBRARY_JOINTS_H*/

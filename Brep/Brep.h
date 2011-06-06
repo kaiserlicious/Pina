@@ -23,7 +23,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 
-#if PINA_BREP
+
 #define THIS Brep
 
 namespace PINA_NAMESPACE{
@@ -32,8 +32,8 @@ class Source;
 class Vertices;
 class Extra;
 
-#if PINA_SUBNAMESPACES
-//namespace PINA_BREP_NAMESPACE{
+
+
 
 class Curves;
 class Surface_curves;
@@ -45,7 +45,7 @@ class Pcurves;
 class Shells;
 class Solids;
 
-#endif /*PINA_SUBNAMESPACES*/
+
 
 
 /**
@@ -83,10 +83,10 @@ private:
 
 };
 
-#if PINA_SUBNAMESPACES
-//}/*PINA_BREP_NAMESPACE*/
-#endif /*PINA_SUBNAMESPACES*/
+
+
+
 }/*PINA_NAMESPACE*/
 #undef THIS
-#endif /*PINA_BREP*/
+
 #endif /*COLLADA_BREP_H*/
