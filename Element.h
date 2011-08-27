@@ -57,6 +57,8 @@ friend class Document;
 
 public:
 
+  virtual THIS* get(std::string name);
+
   /**
   @brief The constructor
   @param d The Document the Element will belong to
@@ -425,6 +427,7 @@ protected:
   std::list<std::pair<TypeInfo,THIS*> > children; /// The children of the element
 
 }; /* End of class */
+
 
 }/*PINA_NAMESPACE*/
 #undef THIS

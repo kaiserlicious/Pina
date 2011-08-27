@@ -25,22 +25,23 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace PINA_NAMESPACE{
 
-template<bool>
-struct COMPILE_TIME;
+  template<bool> class StaticCheck{};
+  template<> class StaticCheck<true>{
+    public: static bool eval;
+  };
 
-template<>
-struct COMPILE_TIME<true>{
-  static void CHECK_FAILED(){};
-};
 
-template<>
-struct COMPILE_TIME<false>{
-};
 
-template<bool exp>
-struct CompileTimeCheck{
-  static void check(){COMPILE_TIME<exp>::CHECK_FAILED();};
-};
+  template<typename Error>
+  class Check{
+  public:
+    static void eval(bool exp) throw(Error){
+      if(!exp){ throw Error(); }
+    }
+    static void eval(bool exp,std::string message) throw(Error){
+      if(!exp){ throw Error(message); }
+    }
+  };
 
 }//PINA_NAMESPACE
 #endif

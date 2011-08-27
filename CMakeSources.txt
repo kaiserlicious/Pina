@@ -33,6 +33,14 @@ SET(PINA_HEADERS_LOG
 Log/Log.h
 )
 
+SET(PINA_HEADERS_XML
+Xml/Xml.h
+)
+
+SET(PINA_SRC_XML
+Xml/Xml.cpp
+)
+
 SET(PINA_HEADERS_TEMPLATES
 Templates/CompileTimeCheck.h
 Templates/Ordering.h
@@ -42,6 +50,7 @@ Templates/TypelistConstructor16to32.h
 Templates/TypelistConstructor32to64.h
 Templates/TypelistConstructor64to128.h
 Templates/Typelists.h
+Templates/Navigation.h
 )
 
 SET(PINA_SRC_TEMPLATES)

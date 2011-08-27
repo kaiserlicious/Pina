@@ -26,6 +26,30 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Element
 namespace PINA_NAMESPACE{
 
+class InvalidElement : public THIS{
+  public:
+  InvalidElement():THIS(0,0){}
+  std::string getName(){return std::string(); }
+  void order(){}
+  THIS* get(std::string){
+    return this;
+  }
+  static InvalidElement instance;
+};
+
+  InvalidElement InvalidElement::instance = InvalidElement();
+
+THIS* THIS::get(std::string name){
+  std::list<std::pair<TypeInfo,Element*> >::iterator iter;
+  for(iter = children.begin();iter != children.end(); iter++){
+    if(iter->second->getName() == name){
+        return iter->second;
+      }
+    }
+    return &InvalidElement::instance;
+}
+
+
 THIS::THIS(Document* d, TiXmlHandle h):handle(h),document(d){
   if(!d){
     postToLog(new LogEntry<Enum::Fatal>("Element","Detected nullpointer as Document"));

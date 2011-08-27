@@ -45,8 +45,8 @@ FILE* TiXmlFOpen( const char* filename, const char* mode )
 		return 0;
 	#else
         //added for debug:
-        std::cout << "TiX: non ms code" << std::endl;
-        std::cout << "Tix: trying to fopen file " << std::string(filename) << " with mode " << mode << std::endl;
+        //std::cout << "TiX: non ms code" << std::endl;
+        //std::cout << "Tix: trying to fopen file " << std::string(filename) << " with mode " << mode << std::endl;
 		FILE* fp = fopen( filename, mode );
         if(fp == NULL){
             perror ("The following error occurred");
