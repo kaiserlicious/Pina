@@ -50,7 +50,6 @@ Templates/TypelistConstructor16to32.h
 Templates/TypelistConstructor32to64.h
 Templates/TypelistConstructor64to128.h
 Templates/Typelists.h
-Templates/Navigation.h
 )
 
 SET(PINA_SRC_TEMPLATES)

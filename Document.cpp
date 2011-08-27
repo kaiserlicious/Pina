@@ -23,16 +23,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "Element.h"
 #include "Core/Collada.h"
 
-#include "Templates/Navigation.h"
-
-
-#include "Core/Asset.h"
-void foo(){
-Pina::Element* e;
-Pina::Get<Pina::Asset,Pina::Asset,Pina::Collada>::from(e);
-}
-
-
 #define THIS Document
 
 namespace PINA_NAMESPACE{
