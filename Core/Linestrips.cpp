@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Linestrips
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):ElementHasVertexInput(d,h){
+THIS::THIS(Document* d, XmlElement* h):ElementHasVertexInput(d,h){
 
   /* attributes */
   createAttribute(attrib_name ,"name");

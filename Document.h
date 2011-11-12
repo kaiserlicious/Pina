@@ -22,7 +22,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define COLLADA_DOCUMENT_H
 
 #include "Config.h"
-#include "Tinyxml/tinyxml.h"
+#include "Xml/Xml.h"
 #include <map>
 #include <vector>
 #include <queue>
@@ -51,6 +51,8 @@ class THIS{
   bool save(std::string filename);
 
   Element* getByURL(std::string);
+
+  XmlElement* createXmlElement(std::string);
 
   template<typename TYPE>
   void getByURL(TYPE*& t, std::string str){
@@ -124,6 +126,7 @@ class THIS{
   Element* searchId(Element*,std::string );
   std::vector<Element*> elements;
   std::queue<AbstractLogEntry*> log;
+  XmlParser* xmlParser;
 };
 
 }/*PINA_NAMESPACE*/

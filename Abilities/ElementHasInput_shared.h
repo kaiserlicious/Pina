@@ -32,7 +32,7 @@ namespace PINA_NAMESPACE{
 class THIS: public Element{
 
   protected:
-  THIS(Document* d, TiXmlHandle h = TiXmlHandle(0)):Element(d,h){
+  THIS(Document* d, XmlElement* h = 0):Element(d,h){
   }
 
   public:

@@ -26,6 +26,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Element
 namespace PINA_NAMESPACE{
 
+
 class InvalidElement : public THIS{
   public:
   InvalidElement():THIS(0,0){}
@@ -37,7 +38,8 @@ class InvalidElement : public THIS{
   static InvalidElement instance;
 };
 
-  InvalidElement InvalidElement::instance = InvalidElement();
+InvalidElement InvalidElement::instance = InvalidElement();
+
 
 THIS* THIS::get(std::string name){
   std::list<std::pair<TypeInfo,Element*> >::iterator iter;
@@ -50,18 +52,20 @@ THIS* THIS::get(std::string name){
 }
 
 
-THIS::THIS(Document* d, TiXmlHandle h):handle(h),document(d){
-  if(!d){
-    postToLog(new LogEntry<Enum::Fatal>("Element","Detected nullpointer as Document"));
-  }
-  document->elements.push_back(this);
-};
+THIS::THIS(Document* d, XmlElement* h):handle(h),document(d){
+  //if(!d){
+  //  postToLog(new LogEntry<Enum::Fatal>("Element","Detected nullpointer as Document"));
+  //}
+    if(d){
+        document->elements.push_back(this);
+    }
+}
 
 Document* THIS::getDocument() const{
   return document;
 }
 
-THIS* THIS::buildUnkown(Document* doc, TiXmlHandle h){
+THIS* THIS::buildUnkown(Document* doc, XmlElement* h){
   return new Unkown(doc,h);
 }
 
@@ -87,28 +91,28 @@ bool THIS::add(THIS* element){
   return false;
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
-  TiXmlElement* element = new TiXmlElement(getName());
+XmlElement* THIS::toXmlElement(){
+  XmlElement* element = document->createXmlElement(getName());
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
     postToLog(new LogEntry<Enum::Info>(getName(),"looking for Attribute: " + iter->first));
     if(iter->second->exists()){
-      element->SetAttribute(iter->first,iter->second->toString());
+      element->setAttribute(iter->first,iter->second->toString());
     }
     iter++;
   }
   return element;
 }
 
-TiXmlElement* THIS::write(){
+XmlElement* THIS::write(){
   postToLog(new LogEntry<Enum::Debug>(getName(),"writing: " + getName()));
   order();
-	TiXmlElement* self = toTiXmlElement();
+  XmlElement* self = toXmlElement();
   std::list<std::pair<TypeInfo,THIS*> >::iterator iter;
   iter = children.begin();
   while(iter != children.end()){
-    self->LinkEndChild(iter->second->write());
+    self->appendChild(iter->second->write());
     iter++;
   }
   return self;

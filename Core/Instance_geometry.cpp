@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Instance_geometry
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h), IsInstance<Geometry>(this){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h), IsInstance<Geometry>(this){
 
   /* attributes */
   createAttribute(attrib_sid,"sid");

@@ -41,11 +41,11 @@ class Usertype;
 template<typename TYPE, unsigned int size>
 class SimpleType:public Element{
   public:
-  SimpleType(Document* d, TiXmlHandle h = TiXmlHandle(0)):Element(d,h){
-    TiXmlElement* element = handle.ToElement();
+  SimpleType(Document* d, XmlElement* h = 0):Element(d,h){
+    XmlElement* element = handle;
     if(element){
       std::vector<TYPE> vec;
-      Utils::fromString(vec,element->GetText());
+      Utils::fromString(vec,element->getText());
       for (unsigned int i=0; i<vec.size(); i++) {
         data[i]=vec[i];
       }
@@ -58,14 +58,13 @@ class SimpleType:public Element{
   void order(){
     /*nothing to do, because there are no children that could be sorted*/
   };
-  TiXmlElement* toTiXmlElement(){
-    TiXmlElement* element = new TiXmlElement(getName());
+  XmlElement* toXmlElement(){
+    XmlElement* element = XmlParser::environment->newElement(getName());
     std::stringstream stream;
     for(unsigned int i=0; i<size; i++){
       stream << Utils::toString(data[i]) << " ";
     }
-    TiXmlText * text = new TiXmlText(stream.str());
-    element->LinkEndChild(text);
+    element->setText(stream.str());
     return element;
   }
   // static const std::string Name; // implemented in subclass
@@ -90,11 +89,11 @@ class SimpleType:public Element{
 template< unsigned int size>
 class SimpleType<bool,size>:public Element{
   public:
-  SimpleType(Document* d, TiXmlHandle h = TiXmlHandle(0)):Element(d,h){
-    TiXmlElement* element = handle.ToElement();
+  SimpleType(Document* d, XmlElement* h = 0):Element(d,h){
+    XmlElement* element = handle;
     if(element){
       std::list<std::string> strings;
-      Utils::fromString(strings,element->GetText());
+      Utils::fromString(strings,element->getText());
       std::list<std::string>::iterator iter;
       unsigned int i=0;
       for(iter = strings.begin(); iter != strings.end() && i<size; iter++){
@@ -109,14 +108,13 @@ class SimpleType<bool,size>:public Element{
   void order(){
     /*nothing to do, because there are no children that could be sorted*/
   };
-  TiXmlElement* toTiXmlElement(){
-    TiXmlElement* element = new TiXmlElement(getName());
+  XmlElement* toXmlElement(){
+    XmlElement* element = XmlParser::environment->newElement(getName());
     std::stringstream stream;
     for(unsigned int i=0; i<size; i++){
       stream << (data[i] ? "true" : "false") << " ";
     }
-    TiXmlText * text = new TiXmlText(stream.str());
-    element->LinkEndChild(text);
+    element->setText(stream.str());
     return element;
   }
   // static const std::string Name; // implemented in subclass
@@ -141,10 +139,10 @@ class SimpleType<bool,size>:public Element{
 template<typename TYPE>
 class SimpleArrayType:public Element{
   public:
-  SimpleArrayType(Document* d, TiXmlHandle h = TiXmlHandle(0)):Element(d,h){
-    TiXmlElement* element = handle.ToElement();
+  SimpleArrayType(Document* d, XmlElement* h = 0):Element(d,h){
+    XmlElement* element = handle;
     if(element){
-      Utils::fromString(data,element->GetText());
+      Utils::fromString(data,element->getText());
     }
   }
   ~SimpleArrayType(){
@@ -153,15 +151,14 @@ class SimpleArrayType:public Element{
   void order(){
     /*nothing to do, because there are no children that could be sorted*/
   };
-  TiXmlElement* toTiXmlElement(){
-    TiXmlElement* element = new TiXmlElement(getName());
+  XmlElement* toXmlElement(){
+    XmlElement* element = XmlParser::environment->newElement(getName());
     std::stringstream stream;
     typename std::vector<TYPE>::iterator iter;
     for(iter = data.begin(); iter != data.end(); iter++){
       stream << Utils::toString(*iter) << " ";
     }
-    TiXmlText * text = new TiXmlText(stream.str());
-    element->LinkEndChild(text);
+    element->setText(stream.str());
     return element;
   }
   // static const std::string Name; // implemented in subclass
@@ -194,11 +191,11 @@ class SimpleArrayType:public Element{
 template<>
 class SimpleArrayType<bool>:public Element{
   public:
-  SimpleArrayType(Document* d, TiXmlHandle h = TiXmlHandle(0)):Element(d,h){
-    TiXmlElement* element = handle.ToElement();
+  SimpleArrayType(Document* d, XmlElement* h = 0):Element(d,h){
+    XmlElement* element = handle;
     if(element){
       std::list<std::string> strings;
-      Utils::fromString(strings,element->GetText());
+      Utils::fromString(strings,element->getText());
       std::list<std::string>::iterator iter;
       for(iter = strings.begin(); iter != strings.end(); iter++){
         data.push_back((*iter) == "true" ? true : false);
@@ -211,15 +208,14 @@ class SimpleArrayType<bool>:public Element{
   void order(){
     /*nothing to do, because there are no children that could be sorted*/
   };
-  TiXmlElement* toTiXmlElement(){
-    TiXmlElement* element = new TiXmlElement(getName());
+  XmlElement* toXmlElement(){
+    XmlElement* element = XmlParser::environment->newElement(getName());
     std::stringstream stream;
     std::vector<bool>::iterator iter;
     for(iter = data.begin(); iter != data.end(); iter++){
       stream << ((*iter) ? "true" : " false") << " ";
     }
-    TiXmlText * text = new TiXmlText(stream.str());
-    element->LinkEndChild(text);
+    element->setText(stream.str());
     return element;
   }
   // static const std::string Name; // implemented in subclass
@@ -253,7 +249,7 @@ class SimpleArrayType<bool>:public Element{
 // bool2_type
 class Bool2_type: public SimpleType<bool,2>{
   public:
-  Bool2_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,2>(d,h){
+  Bool2_type(Document* d, XmlElement* h = 0):SimpleType<bool,2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -264,7 +260,7 @@ class Bool2_type: public SimpleType<bool,2>{
 // bool3_type
 class Bool3_type: public SimpleType<bool,3>{
   public:
-  Bool3_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,3>(d,h){
+  Bool3_type(Document* d, XmlElement* h = 0):SimpleType<bool,3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -275,7 +271,7 @@ class Bool3_type: public SimpleType<bool,3>{
 // bool4_type
 class Bool4_type: public SimpleType<bool,4>{
   public:
-  Bool4_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,4>(d,h){
+  Bool4_type(Document* d, XmlElement* h = 0):SimpleType<bool,4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -286,7 +282,7 @@ class Bool4_type: public SimpleType<bool,4>{
 // float_type
 class Float_type: public SimpleType<float,1>{
   public:
-  Float_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,1>(d,h){
+  Float_type(Document* d, XmlElement* h = 0):SimpleType<float,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -297,7 +293,7 @@ class Float_type: public SimpleType<float,1>{
 // float2_type
 class Float2_type: public SimpleType<float,2>{
   public:
-  Float2_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2>(d,h){
+  Float2_type(Document* d, XmlElement* h = 0):SimpleType<float,2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -308,7 +304,7 @@ class Float2_type: public SimpleType<float,2>{
 // float2x2_type
 class Float2x2_type: public SimpleType<float,2*2>{
   public:
-  Float2x2_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*2>(d,h){
+  Float2x2_type(Document* d, XmlElement* h = 0):SimpleType<float,2*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -319,7 +315,7 @@ class Float2x2_type: public SimpleType<float,2*2>{
 // float2x3_type
 class Float2x3_type: public SimpleType<float,2*3>{
   public:
-  Float2x3_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*3>(d,h){
+  Float2x3_type(Document* d, XmlElement* h = 0):SimpleType<float,2*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -330,7 +326,7 @@ class Float2x3_type: public SimpleType<float,2*3>{
 // float2x4_type
 class Float2x4_type: public SimpleType<float,2*4>{
   public:
-  Float2x4_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*4>(d,h){
+  Float2x4_type(Document* d, XmlElement* h = 0):SimpleType<float,2*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -341,7 +337,7 @@ class Float2x4_type: public SimpleType<float,2*4>{
 // float3_type
 class Float3_type: public SimpleType<float,3>{
   public:
-  Float3_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3>(d,h){
+  Float3_type(Document* d, XmlElement* h = 0):SimpleType<float,3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -352,7 +348,7 @@ class Float3_type: public SimpleType<float,3>{
 // float3x2_type
 class Float3x2_type: public SimpleType<float,3*2>{
   public:
-  Float3x2_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*2>(d,h){
+  Float3x2_type(Document* d, XmlElement* h = 0):SimpleType<float,3*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -363,7 +359,7 @@ class Float3x2_type: public SimpleType<float,3*2>{
 // float3x3_type
 class Float3x3_type: public SimpleType<float,3*3>{
   public:
-  Float3x3_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*3>(d,h){
+  Float3x3_type(Document* d, XmlElement* h = 0):SimpleType<float,3*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -374,7 +370,7 @@ class Float3x3_type: public SimpleType<float,3*3>{
 // float3x4_type
 class Float3x4_type: public SimpleType<float,3*4>{
   public:
-  Float3x4_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*4>(d,h){
+  Float3x4_type(Document* d, XmlElement* h = 0):SimpleType<float,3*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -385,7 +381,7 @@ class Float3x4_type: public SimpleType<float,3*4>{
 // float4_type
 class Float4_type: public SimpleType<float,4>{
   public:
-  Float4_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4>(d,h){
+  Float4_type(Document* d, XmlElement* h = 0):SimpleType<float,4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -396,7 +392,7 @@ class Float4_type: public SimpleType<float,4>{
 // float4x2_type
 class Float4x2_type: public SimpleType<float,4*2>{
   public:
-  Float4x2_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*2>(d,h){
+  Float4x2_type(Document* d, XmlElement* h = 0):SimpleType<float,4*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -407,7 +403,7 @@ class Float4x2_type: public SimpleType<float,4*2>{
 // float4x3_type
 class Float4x3_type: public SimpleType<float,4*3>{
   public:
-  Float4x3_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*3>(d,h){
+  Float4x3_type(Document* d, XmlElement* h = 0):SimpleType<float,4*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -418,7 +414,7 @@ class Float4x3_type: public SimpleType<float,4*3>{
 // float4x4_type
 class Float4x4_type: public SimpleType<float,4*4>{
   public:
-  Float4x4_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*4>(d,h){
+  Float4x4_type(Document* d, XmlElement* h = 0):SimpleType<float,4*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -429,7 +425,7 @@ class Float4x4_type: public SimpleType<float,4*4>{
 // float7_type
 class Float7_type: public SimpleType<float,7>{
   public:
-  Float7_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,7>(d,h){
+  Float7_type(Document* d, XmlElement* h = 0):SimpleType<float,7>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -440,7 +436,7 @@ class Float7_type: public SimpleType<float,7>{
 // int_type
 class Int_type: public SimpleType<int,1>{
   public:
-  Int_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,1>(d,h){
+  Int_type(Document* d, XmlElement* h = 0):SimpleType<int,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -451,7 +447,7 @@ class Int_type: public SimpleType<int,1>{
 // int2_type
 class Int2_type: public SimpleType<int,2>{
   public:
-  Int2_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,2>(d,h){
+  Int2_type(Document* d, XmlElement* h = 0):SimpleType<int,2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -462,7 +458,7 @@ class Int2_type: public SimpleType<int,2>{
 // int2x2_type
 class Int2x2_type: public SimpleType<int,2*2>{
   public:
-  Int2x2_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,2*2>(d,h){
+  Int2x2_type(Document* d, XmlElement* h = 0):SimpleType<int,2*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -473,7 +469,7 @@ class Int2x2_type: public SimpleType<int,2*2>{
 // int3_type
 class Int3_type: public SimpleType<int,3>{
   public:
-  Int3_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,3>(d,h){
+  Int3_type(Document* d, XmlElement* h = 0):SimpleType<int,3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -484,7 +480,7 @@ class Int3_type: public SimpleType<int,3>{
 // int3x3_type
 class Int3x3_type: public SimpleType<int,3*3>{
   public:
-  Int3x3_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,3*3>(d,h){
+  Int3x3_type(Document* d, XmlElement* h = 0):SimpleType<int,3*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -495,7 +491,7 @@ class Int3x3_type: public SimpleType<int,3*3>{
 // int4_type
 class Int4_type: public SimpleType<int,4>{
   public:
-  Int4_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,4>(d,h){
+  Int4_type(Document* d, XmlElement* h = 0):SimpleType<int,4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -506,7 +502,7 @@ class Int4_type: public SimpleType<int,4>{
 // int4x4_type
 class Int4x4_type: public SimpleType<int,4*4>{
   public:
-  Int4x4_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,4*4>(d,h){
+  Int4x4_type(Document* d, XmlElement* h = 0):SimpleType<int,4*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -517,7 +513,7 @@ class Int4x4_type: public SimpleType<int,4*4>{
 // list_of_bools_type
 class List_of_bools_type: public SimpleArrayType<bool>{
   public:
-  List_of_bools_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleArrayType<bool>(d,h){
+  List_of_bools_type(Document* d, XmlElement* h = 0):SimpleArrayType<bool>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -528,7 +524,7 @@ class List_of_bools_type: public SimpleArrayType<bool>{
 // list_of_floats_type
 class List_of_floats_type: public SimpleArrayType<float>{
   public:
-  List_of_floats_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleArrayType<float>(d,h){
+  List_of_floats_type(Document* d, XmlElement* h = 0):SimpleArrayType<float>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -540,11 +536,11 @@ class List_of_floats_type: public SimpleArrayType<float>{
 /*customized implementation because of hex input/output*/
 class List_of_hexBinary_type:public Element{
   public:
-  List_of_hexBinary_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):Element(d,h){
-    TiXmlElement* element = handle.ToElement();
+  List_of_hexBinary_type(Document* d, XmlElement* h = 0):Element(d,h){
+    XmlElement* element = handle;
     if(element){
       std::list<std::string> strings;
-      Utils::fromString(strings,element->GetText());
+      Utils::fromString(strings,element->getText());
       std::stringstream stream;
       stream << std::hex; /*set the stream to read hex*/
       long value;
@@ -563,16 +559,15 @@ class List_of_hexBinary_type:public Element{
   void order(){
     /*nothing to do, because there are no children that could be sorted*/
   };
-  TiXmlElement* toTiXmlElement(){
-    TiXmlElement* element = new TiXmlElement(getName());
+  XmlElement* toXmlElement(){
+    XmlElement* element = XmlParser::environment->newElement(getName());
     std::stringstream stream;
     stream << std::hex; /*here is the magic, set stream to hex output*/
     std::vector<long>::iterator iter;
     for(iter = data.begin(); iter != data.end(); iter++){
       stream << *iter << " ";
     }
-    TiXmlText * text = new TiXmlText(stream.str());
-    element->LinkEndChild(text);
+    element->setText(stream.str());
     return element;
   }
 
@@ -600,7 +595,7 @@ class List_of_hexBinary_type:public Element{
 // list_of_ints_type
 class List_of_ints_type: public SimpleArrayType<int>{
   public:
-  List_of_ints_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleArrayType<int>(d,h){
+  List_of_ints_type(Document* d, XmlElement* h = 0):SimpleArrayType<int>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -611,7 +606,7 @@ class List_of_ints_type: public SimpleArrayType<int>{
 // list_of_uints_type
 class List_of_uints_type: public SimpleArrayType<unsigned int>{
   public:
-  List_of_uints_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleArrayType<unsigned int>(d,h){
+  List_of_uints_type(Document* d, XmlElement* h = 0):SimpleArrayType<unsigned int>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -624,7 +619,7 @@ class List_of_uints_type: public SimpleArrayType<unsigned int>{
 // bool
 class Bool: public SimpleType<bool,1>{
   public:
-  Bool(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,1>(d,h){
+  Bool(Document* d, XmlElement* h = 0):SimpleType<bool,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -635,7 +630,7 @@ class Bool: public SimpleType<bool,1>{
 //bool2
 class Bool2: public SimpleType<bool,2>{
   public:
-  Bool2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,2>(d,h){
+  Bool2(Document* d, XmlElement* h = 0):SimpleType<bool,2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -646,7 +641,7 @@ class Bool2: public SimpleType<bool,2>{
 // bool3
 class Bool3: public SimpleType<bool,3>{
   public:
-  Bool3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,3>(d,h){
+  Bool3(Document* d, XmlElement* h = 0):SimpleType<bool,3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -657,7 +652,7 @@ class Bool3: public SimpleType<bool,3>{
 // bool4
 class Bool4: public SimpleType<bool,4>{
   public:
-  Bool4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,4>(d,h){
+  Bool4(Document* d, XmlElement* h = 0):SimpleType<bool,4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -668,7 +663,7 @@ class Bool4: public SimpleType<bool,4>{
 // int
 class Int: public SimpleType<int,1>{
   public:
-  Int(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,1>(d,h){
+  Int(Document* d, XmlElement* h = 0):SimpleType<int,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -679,7 +674,7 @@ class Int: public SimpleType<int,1>{
 // int2
 class Int2: public SimpleType<int,2>{
   public:
-  Int2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,2>(d,h){
+  Int2(Document* d, XmlElement* h = 0):SimpleType<int,2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -690,7 +685,7 @@ class Int2: public SimpleType<int,2>{
 // int3
 class Int3: public SimpleType<int,3>{
   public:
-  Int3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,3>(d,h){
+  Int3(Document* d, XmlElement* h = 0):SimpleType<int,3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -701,7 +696,7 @@ class Int3: public SimpleType<int,3>{
 //int4
 class Int4: public SimpleType<int,4>{
   public:
-  Int4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,4>(d,h){
+  Int4(Document* d, XmlElement* h = 0):SimpleType<int,4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -712,7 +707,7 @@ class Int4: public SimpleType<int,4>{
 //float
 class Float: public SimpleType<float,1>{
   public:
-  Float(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,1>(d,h){
+  Float(Document* d, XmlElement* h = 0):SimpleType<float,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -723,7 +718,7 @@ class Float: public SimpleType<float,1>{
 // float2
 class Float2: public SimpleType<float,2>{
   public:
-  Float2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2>(d,h){
+  Float2(Document* d, XmlElement* h = 0):SimpleType<float,2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -734,7 +729,7 @@ class Float2: public SimpleType<float,2>{
 // float3
 class Float3: public SimpleType<float,3>{
   public:
-  Float3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3>(d,h){
+  Float3(Document* d, XmlElement* h = 0):SimpleType<float,3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -745,7 +740,7 @@ class Float3: public SimpleType<float,3>{
 // float4
 class Float4: public SimpleType<float,4>{
   public:
-  Float4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4>(d,h){
+  Float4(Document* d, XmlElement* h = 0):SimpleType<float,4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -756,7 +751,7 @@ class Float4: public SimpleType<float,4>{
 // float2x2
 class Float2x2: public SimpleType<float,2*2>{
   public:
-  Float2x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*2>(d,h){
+  Float2x2(Document* d, XmlElement* h = 0):SimpleType<float,2*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -767,7 +762,7 @@ class Float2x2: public SimpleType<float,2*2>{
 // float3x3
 class Float3x3: public SimpleType<float,3*3>{
   public:
-  Float3x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*3>(d,h){
+  Float3x3(Document* d, XmlElement* h = 0):SimpleType<float,3*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -778,7 +773,7 @@ class Float3x3: public SimpleType<float,3*3>{
 // float4x4
 class Float4x4: public SimpleType<float,4*4>{
   public:
-  Float4x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*4>(d,h){
+  Float4x4(Document* d, XmlElement* h = 0):SimpleType<float,4*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -789,7 +784,7 @@ class Float4x4: public SimpleType<float,4*4>{
 // enum_gsl
 class Enum_gsl: public SimpleType<std::string,1>{
   public:
-  Enum_gsl(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<std::string,1>(d,h){
+  Enum_gsl(Document* d, XmlElement* h = 0):SimpleType<std::string,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -811,7 +806,7 @@ implemented in their own header and source files in FX
 // bool2x1
 class Bool2x1: public SimpleType<bool,2*1>{
   public:
-  Bool2x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,2*1>(d,h){
+  Bool2x1(Document* d, XmlElement* h = 0):SimpleType<bool,2*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -822,7 +817,7 @@ class Bool2x1: public SimpleType<bool,2*1>{
 // bool2x2
 class Bool2x2: public SimpleType<bool,2*2>{
   public:
-  Bool2x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,2*2>(d,h){
+  Bool2x2(Document* d, XmlElement* h = 0):SimpleType<bool,2*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -833,7 +828,7 @@ class Bool2x2: public SimpleType<bool,2*2>{
 // bool2x3
 class Bool2x3: public SimpleType<bool,2*3>{
   public:
-  Bool2x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,2*3>(d,h){
+  Bool2x3(Document* d, XmlElement* h = 0):SimpleType<bool,2*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -844,7 +839,7 @@ class Bool2x3: public SimpleType<bool,2*3>{
 // bool2x4
 class Bool2x4: public SimpleType<bool,2*4>{
   public:
-  Bool2x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,2*4>(d,h){
+  Bool2x4(Document* d, XmlElement* h = 0):SimpleType<bool,2*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -855,7 +850,7 @@ class Bool2x4: public SimpleType<bool,2*4>{
 // bool3x1
 class Bool3x1: public SimpleType<bool,3*1>{
   public:
-  Bool3x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,3*1>(d,h){
+  Bool3x1(Document* d, XmlElement* h = 0):SimpleType<bool,3*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -866,7 +861,7 @@ class Bool3x1: public SimpleType<bool,3*1>{
 // bool3x2
 class Bool3x2: public SimpleType<bool,3*2>{
   public:
-  Bool3x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,3*2>(d,h){
+  Bool3x2(Document* d, XmlElement* h = 0):SimpleType<bool,3*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -877,7 +872,7 @@ class Bool3x2: public SimpleType<bool,3*2>{
 // bool3x3
 class Bool3x3: public SimpleType<bool,3*3>{
   public:
-  Bool3x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,3*3>(d,h){
+  Bool3x3(Document* d, XmlElement* h = 0):SimpleType<bool,3*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -888,7 +883,7 @@ class Bool3x3: public SimpleType<bool,3*3>{
 // bool3x4
 class Bool3x4: public SimpleType<bool,3*4>{
   public:
-  Bool3x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,3*4>(d,h){
+  Bool3x4(Document* d, XmlElement* h = 0):SimpleType<bool,3*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -899,7 +894,7 @@ class Bool3x4: public SimpleType<bool,3*4>{
 // bool4x1
 class Bool4x1: public SimpleType<bool,4*1>{
   public:
-  Bool4x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,4*1>(d,h){
+  Bool4x1(Document* d, XmlElement* h = 0):SimpleType<bool,4*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -910,7 +905,7 @@ class Bool4x1: public SimpleType<bool,4*1>{
 // bool4x2
 class Bool4x2: public SimpleType<bool,4*2>{
   public:
-  Bool4x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,4*2>(d,h){
+  Bool4x2(Document* d, XmlElement* h = 0):SimpleType<bool,4*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -921,7 +916,7 @@ class Bool4x2: public SimpleType<bool,4*2>{
 // bool4x3
 class Bool4x3: public SimpleType<bool,4*3>{
   public:
-  Bool4x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,4*3>(d,h){
+  Bool4x3(Document* d, XmlElement* h = 0):SimpleType<bool,4*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -932,7 +927,7 @@ class Bool4x3: public SimpleType<bool,4*3>{
 // bool4x4
 class Bool4x4: public SimpleType<bool,4*4>{
   public:
-  Bool4x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,4*4>(d,h){
+  Bool4x4(Document* d, XmlElement* h = 0):SimpleType<bool,4*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -948,7 +943,7 @@ class Bool4x4: public SimpleType<bool,4*4>{
 // int2x1
 class Int2x1: public SimpleType<int,2*1>{
   public:
-  Int2x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,2*1>(d,h){
+  Int2x1(Document* d, XmlElement* h = 0):SimpleType<int,2*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -959,7 +954,7 @@ class Int2x1: public SimpleType<int,2*1>{
 // int2x2
 class Int2x2: public SimpleType<int,2*2>{
   public:
-  Int2x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,2*2>(d,h){
+  Int2x2(Document* d, XmlElement* h = 0):SimpleType<int,2*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -970,7 +965,7 @@ class Int2x2: public SimpleType<int,2*2>{
 // int2x3
 class Int2x3: public SimpleType<int,2*3>{
   public:
-  Int2x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,2*3>(d,h){
+  Int2x3(Document* d, XmlElement* h = 0):SimpleType<int,2*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -981,7 +976,7 @@ class Int2x3: public SimpleType<int,2*3>{
 // int2x4
 class Int2x4: public SimpleType<int,2*4>{
   public:
-  Int2x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,2*4>(d,h){
+  Int2x4(Document* d, XmlElement* h = 0):SimpleType<int,2*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -992,7 +987,7 @@ class Int2x4: public SimpleType<int,2*4>{
 // int3x1
 class Int3x1: public SimpleType<int,3*1>{
   public:
-  Int3x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,3*1>(d,h){
+  Int3x1(Document* d, XmlElement* h = 0):SimpleType<int,3*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1003,7 +998,7 @@ class Int3x1: public SimpleType<int,3*1>{
 // int3x2
 class Int3x2: public SimpleType<int,3*2>{
   public:
-  Int3x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,3*2>(d,h){
+  Int3x2(Document* d, XmlElement* h = 0):SimpleType<int,3*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1014,7 +1009,7 @@ class Int3x2: public SimpleType<int,3*2>{
 // int3x3
 class Int3x3: public SimpleType<int,3*3>{
   public:
-  Int3x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,3*3>(d,h){
+  Int3x3(Document* d, XmlElement* h = 0):SimpleType<int,3*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1025,7 +1020,7 @@ class Int3x3: public SimpleType<int,3*3>{
 // int3x4
 class Int3x4: public SimpleType<int,3*4>{
   public:
-  Int3x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,3*4>(d,h){
+  Int3x4(Document* d, XmlElement* h = 0):SimpleType<int,3*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1036,7 +1031,7 @@ class Int3x4: public SimpleType<int,3*4>{
 // int4x1
 class Int4x1: public SimpleType<int,4*1>{
   public:
-  Int4x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,4*1>(d,h){
+  Int4x1(Document* d, XmlElement* h = 0):SimpleType<int,4*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1047,7 +1042,7 @@ class Int4x1: public SimpleType<int,4*1>{
 // int4x2
 class Int4x2: public SimpleType<int,4*2>{
   public:
-  Int4x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,4*2>(d,h){
+  Int4x2(Document* d, XmlElement* h = 0):SimpleType<int,4*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1058,7 +1053,7 @@ class Int4x2: public SimpleType<int,4*2>{
 // int4x3
 class Int4x3: public SimpleType<int,4*3>{
   public:
-  Int4x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,4*3>(d,h){
+  Int4x3(Document* d, XmlElement* h = 0):SimpleType<int,4*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1069,7 +1064,7 @@ class Int4x3: public SimpleType<int,4*3>{
 // int4x4
 class Int4x4: public SimpleType<int,4*4>{
   public:
-  Int4x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,4*4>(d,h){
+  Int4x4(Document* d, XmlElement* h = 0):SimpleType<int,4*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1085,7 +1080,7 @@ class Int4x4: public SimpleType<int,4*4>{
 // float2x1
 class Float2x1: public SimpleType<float,2*1>{
   public:
-  Float2x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*1>(d,h){
+  Float2x1(Document* d, XmlElement* h = 0):SimpleType<float,2*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1098,7 +1093,7 @@ class Float2x1: public SimpleType<float,2*1>{
 // float2x3
 class Float2x3: public SimpleType<float,2*3>{
   public:
-  Float2x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*3>(d,h){
+  Float2x3(Document* d, XmlElement* h = 0):SimpleType<float,2*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1109,7 +1104,7 @@ class Float2x3: public SimpleType<float,2*3>{
 // float2x4
 class Float2x4: public SimpleType<float,2*4>{
   public:
-  Float2x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*4>(d,h){
+  Float2x4(Document* d, XmlElement* h = 0):SimpleType<float,2*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1120,7 +1115,7 @@ class Float2x4: public SimpleType<float,2*4>{
 // float3x1
 class Float3x1: public SimpleType<float,3*1>{
   public:
-  Float3x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*1>(d,h){
+  Float3x1(Document* d, XmlElement* h = 0):SimpleType<float,3*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1131,7 +1126,7 @@ class Float3x1: public SimpleType<float,3*1>{
 // float3x2
 class Float3x2: public SimpleType<float,3*2>{
   public:
-  Float3x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*2>(d,h){
+  Float3x2(Document* d, XmlElement* h = 0):SimpleType<float,3*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1144,7 +1139,7 @@ class Float3x2: public SimpleType<float,3*2>{
 // float3x4
 class Float3x4: public SimpleType<float,3*4>{
   public:
-  Float3x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*4>(d,h){
+  Float3x4(Document* d, XmlElement* h = 0):SimpleType<float,3*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1155,7 +1150,7 @@ class Float3x4: public SimpleType<float,3*4>{
 // float4x1
 class Float4x1: public SimpleType<float,4*1>{
   public:
-  Float4x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*1>(d,h){
+  Float4x1(Document* d, XmlElement* h = 0):SimpleType<float,4*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1166,7 +1161,7 @@ class Float4x1: public SimpleType<float,4*1>{
 // float4x2
 class Float4x2: public SimpleType<float,4*2>{
   public:
-  Float4x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*2>(d,h){
+  Float4x2(Document* d, XmlElement* h = 0):SimpleType<float,4*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1177,7 +1172,7 @@ class Float4x2: public SimpleType<float,4*2>{
 // float4x3
 class Float4x3: public SimpleType<float,4*3>{
   public:
-  Float4x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*3>(d,h){
+  Float4x3(Document* d, XmlElement* h = 0):SimpleType<float,4*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1190,7 +1185,7 @@ class Float4x3: public SimpleType<float,4*3>{
 // half
 class Half: public SimpleType<short,1>{
   public:
-  Half(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,1>(d,h){
+  Half(Document* d, XmlElement* h = 0):SimpleType<short,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1201,7 +1196,7 @@ class Half: public SimpleType<short,1>{
 // half2
 class Half2: public SimpleType<short,2>{
   public:
-  Half2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,2>(d,h){
+  Half2(Document* d, XmlElement* h = 0):SimpleType<short,2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1212,7 +1207,7 @@ class Half2: public SimpleType<short,2>{
 // half3
 class Half3: public SimpleType<short,3>{
   public:
-  Half3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,3>(d,h){
+  Half3(Document* d, XmlElement* h = 0):SimpleType<short,3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1223,7 +1218,7 @@ class Half3: public SimpleType<short,3>{
 // half4
 class Half4: public SimpleType<short,4>{
   public:
-  Half4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,4>(d,h){
+  Half4(Document* d, XmlElement* h = 0):SimpleType<short,4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1234,7 +1229,7 @@ class Half4: public SimpleType<short,4>{
 // half2x1
 class Half2x1: public SimpleType<short,2*1>{
   public:
-  Half2x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,2*1>(d,h){
+  Half2x1(Document* d, XmlElement* h = 0):SimpleType<short,2*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1245,7 +1240,7 @@ class Half2x1: public SimpleType<short,2*1>{
 // half2x2
 class Half2x2: public SimpleType<short,2*2>{
   public:
-  Half2x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,2*2>(d,h){
+  Half2x2(Document* d, XmlElement* h = 0):SimpleType<short,2*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1256,7 +1251,7 @@ class Half2x2: public SimpleType<short,2*2>{
 // half2x3
 class Half2x3: public SimpleType<short,2*3>{
   public:
-  Half2x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,2*3>(d,h){
+  Half2x3(Document* d, XmlElement* h = 0):SimpleType<short,2*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1267,7 +1262,7 @@ class Half2x3: public SimpleType<short,2*3>{
 // half2x4
 class Half2x4: public SimpleType<short,2*4>{
   public:
-  Half2x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,2*4>(d,h){
+  Half2x4(Document* d, XmlElement* h = 0):SimpleType<short,2*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1278,7 +1273,7 @@ class Half2x4: public SimpleType<short,2*4>{
 // half3x1
 class Half3x1: public SimpleType<short,3*1>{
   public:
-  Half3x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,3*1>(d,h){
+  Half3x1(Document* d, XmlElement* h = 0):SimpleType<short,3*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1289,7 +1284,7 @@ class Half3x1: public SimpleType<short,3*1>{
 // half3x2
 class Half3x2: public SimpleType<short,3*2>{
   public:
-  Half3x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,3*2>(d,h){
+  Half3x2(Document* d, XmlElement* h = 0):SimpleType<short,3*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1300,7 +1295,7 @@ class Half3x2: public SimpleType<short,3*2>{
 // half3x3
 class Half3x3: public SimpleType<short,3*3>{
   public:
-  Half3x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,3*3>(d,h){
+  Half3x3(Document* d, XmlElement* h = 0):SimpleType<short,3*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1311,7 +1306,7 @@ class Half3x3: public SimpleType<short,3*3>{
 // half3x4
 class Half3x4: public SimpleType<short,3*4>{
   public:
-  Half3x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,3*4>(d,h){
+  Half3x4(Document* d, XmlElement* h = 0):SimpleType<short,3*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1322,7 +1317,7 @@ class Half3x4: public SimpleType<short,3*4>{
 // half4x1
 class Half4x1: public SimpleType<short,4*1>{
   public:
-  Half4x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,4*1>(d,h){
+  Half4x1(Document* d, XmlElement* h = 0):SimpleType<short,4*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1333,7 +1328,7 @@ class Half4x1: public SimpleType<short,4*1>{
 // half4x2
 class Half4x2: public SimpleType<short,4*2>{
   public:
-  Half4x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,4*2>(d,h){
+  Half4x2(Document* d, XmlElement* h = 0):SimpleType<short,4*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1344,7 +1339,7 @@ class Half4x2: public SimpleType<short,4*2>{
 // half4x3
 class Half4x3: public SimpleType<short,4*3>{
   public:
-  Half4x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,4*3>(d,h){
+  Half4x3(Document* d, XmlElement* h = 0):SimpleType<short,4*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1355,7 +1350,7 @@ class Half4x3: public SimpleType<short,4*3>{
 // half4x4
 class Half4x4: public SimpleType<short,4*4>{
   public:
-  Half4x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<short,4*4>(d,h){
+  Half4x4(Document* d, XmlElement* h = 0):SimpleType<short,4*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1366,7 +1361,7 @@ class Half4x4: public SimpleType<short,4*4>{
 // fixed
 class Fixed: public SimpleType<float,1>{
   public:
-  Fixed(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,1>(d,h){
+  Fixed(Document* d, XmlElement* h = 0):SimpleType<float,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1377,7 +1372,7 @@ class Fixed: public SimpleType<float,1>{
 // fixed2
 class Fixed2: public SimpleType<float,2>{
   public:
-  Fixed2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2>(d,h){
+  Fixed2(Document* d, XmlElement* h = 0):SimpleType<float,2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1388,7 +1383,7 @@ class Fixed2: public SimpleType<float,2>{
 // fixed3
 class Fixed3: public SimpleType<float,3>{
   public:
-  Fixed3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3>(d,h){
+  Fixed3(Document* d, XmlElement* h = 0):SimpleType<float,3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1399,7 +1394,7 @@ class Fixed3: public SimpleType<float,3>{
 // fixed4
 class Fixed4: public SimpleType<float,4>{
   public:
-  Fixed4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4>(d,h){
+  Fixed4(Document* d, XmlElement* h = 0):SimpleType<float,4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1410,7 +1405,7 @@ class Fixed4: public SimpleType<float,4>{
 // fixed1x1
 class Fixed1x1: public SimpleType<float,1*1>{
   public:
-  Fixed1x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,1*1>(d,h){
+  Fixed1x1(Document* d, XmlElement* h = 0):SimpleType<float,1*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1421,7 +1416,7 @@ class Fixed1x1: public SimpleType<float,1*1>{
 // fixed2x1
 class Fixed2x1: public SimpleType<float,2*1>{
   public:
-  Fixed2x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*1>(d,h){
+  Fixed2x1(Document* d, XmlElement* h = 0):SimpleType<float,2*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1432,7 +1427,7 @@ class Fixed2x1: public SimpleType<float,2*1>{
 // fixed2x2
 class Fixed2x2: public SimpleType<float,2*2>{
   public:
-  Fixed2x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*2>(d,h){
+  Fixed2x2(Document* d, XmlElement* h = 0):SimpleType<float,2*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1443,7 +1438,7 @@ class Fixed2x2: public SimpleType<float,2*2>{
 // fixed2x3
 class Fixed2x3: public SimpleType<float,2*3>{
   public:
-  Fixed2x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*3>(d,h){
+  Fixed2x3(Document* d, XmlElement* h = 0):SimpleType<float,2*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1454,7 +1449,7 @@ class Fixed2x3: public SimpleType<float,2*3>{
 // fixed2x4
 class Fixed2x4: public SimpleType<float,2*4>{
   public:
-  Fixed2x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*4>(d,h){
+  Fixed2x4(Document* d, XmlElement* h = 0):SimpleType<float,2*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1465,7 +1460,7 @@ class Fixed2x4: public SimpleType<float,2*4>{
 // fixed3x1
 class Fixed3x1: public SimpleType<float,3*1>{
   public:
-  Fixed3x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*1>(d,h){
+  Fixed3x1(Document* d, XmlElement* h = 0):SimpleType<float,3*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1476,7 +1471,7 @@ class Fixed3x1: public SimpleType<float,3*1>{
 // fixed3x2
 class Fixed3x2: public SimpleType<float,3*2>{
   public:
-  Fixed3x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*2>(d,h){
+  Fixed3x2(Document* d, XmlElement* h = 0):SimpleType<float,3*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1487,7 +1482,7 @@ class Fixed3x2: public SimpleType<float,3*2>{
 // fixed3x3
 class Fixed3x3: public SimpleType<float,3*3>{
   public:
-  Fixed3x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*3>(d,h){
+  Fixed3x3(Document* d, XmlElement* h = 0):SimpleType<float,3*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1498,7 +1493,7 @@ class Fixed3x3: public SimpleType<float,3*3>{
 // fixed3x4
 class Fixed3x4: public SimpleType<float,3*4>{
   public:
-  Fixed3x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*4>(d,h){
+  Fixed3x4(Document* d, XmlElement* h = 0):SimpleType<float,3*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1509,7 +1504,7 @@ class Fixed3x4: public SimpleType<float,3*4>{
 // fixed4x1
 class Fixed4x1: public SimpleType<float,4*1>{
   public:
-  Fixed4x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*1>(d,h){
+  Fixed4x1(Document* d, XmlElement* h = 0):SimpleType<float,4*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1520,7 +1515,7 @@ class Fixed4x1: public SimpleType<float,4*1>{
 // fixed4x2
 class Fixed4x2: public SimpleType<float,4*2>{
   public:
-  Fixed4x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*2>(d,h){
+  Fixed4x2(Document* d, XmlElement* h = 0):SimpleType<float,4*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1531,7 +1526,7 @@ class Fixed4x2: public SimpleType<float,4*2>{
 // fixed4x3
 class Fixed4x3: public SimpleType<float,4*3>{
   public:
-  Fixed4x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*3>(d,h){
+  Fixed4x3(Document* d, XmlElement* h = 0):SimpleType<float,4*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1542,7 +1537,7 @@ class Fixed4x3: public SimpleType<float,4*3>{
 // fixed4x4
 class Fixed4x4: public SimpleType<float,4*4>{
   public:
-  Fixed4x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*4>(d,h){
+  Fixed4x4(Document* d, XmlElement* h = 0):SimpleType<float,4*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1558,7 +1553,7 @@ implemented in their own header and source files in FX
 // enum
 class Enumeration: public SimpleType<std::string,1>{
   public:
-  Enumeration(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<std::string,1>(d,h){
+  Enumeration(Document* d, XmlElement* h = 0):SimpleType<std::string,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1569,7 +1564,7 @@ class Enumeration: public SimpleType<std::string,1>{
 // string
 class String: public SimpleType<std::string,1>{
   public:
-  String(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<std::string,1>(d,h){
+  String(Document* d, XmlElement* h = 0):SimpleType<std::string,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1597,7 +1592,7 @@ class String: public SimpleType<std::string,1>{
 // float1x1
 class Float1x1: public SimpleType<float,1*1>{
   public:
-  Float1x1(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,1*1>(d,h){
+  Float1x1(Document* d, XmlElement* h = 0):SimpleType<float,1*1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1608,7 +1603,7 @@ class Float1x1: public SimpleType<float,1*1>{
 // float1x2
 class Float1x2: public SimpleType<float,1*2>{
   public:
-  Float1x2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,1*2>(d,h){
+  Float1x2(Document* d, XmlElement* h = 0):SimpleType<float,1*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1619,7 +1614,7 @@ class Float1x2: public SimpleType<float,1*2>{
 // float1x3
 class Float1x3: public SimpleType<float,1*3>{
   public:
-  Float1x3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,1*3>(d,h){
+  Float1x3(Document* d, XmlElement* h = 0):SimpleType<float,1*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1630,7 +1625,7 @@ class Float1x3: public SimpleType<float,1*3>{
 // float1x4
 class Float1x4: public SimpleType<float,1*4>{
   public:
-  Float1x4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,1*4>(d,h){
+  Float1x4(Document* d, XmlElement* h = 0):SimpleType<float,1*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1660,7 +1655,7 @@ class Float1x4: public SimpleType<float,1*4>{
 // bvec2
 class Bvec2: public SimpleType<bool,2>{
   public:
-  Bvec2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,2>(d,h){
+  Bvec2(Document* d, XmlElement* h = 0):SimpleType<bool,2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1671,7 +1666,7 @@ class Bvec2: public SimpleType<bool,2>{
 // bvec3
 class Bvec3: public SimpleType<bool,3>{
   public:
-  Bvec3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,3>(d,h){
+  Bvec3(Document* d, XmlElement* h = 0):SimpleType<bool,3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1682,7 +1677,7 @@ class Bvec3: public SimpleType<bool,3>{
 // bvec4
 class Bvec4: public SimpleType<bool,4>{
   public:
-  Bvec4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<bool,4>(d,h){
+  Bvec4(Document* d, XmlElement* h = 0):SimpleType<bool,4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1695,7 +1690,7 @@ class Bvec4: public SimpleType<bool,4>{
 // ivec2
 class Ivec2: public SimpleType<int,2>{
   public:
-  Ivec2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,2>(d,h){
+  Ivec2(Document* d, XmlElement* h = 0):SimpleType<int,2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1706,7 +1701,7 @@ class Ivec2: public SimpleType<int,2>{
 // ivec3
 class Ivec3: public SimpleType<int,3>{
   public:
-  Ivec3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,3>(d,h){
+  Ivec3(Document* d, XmlElement* h = 0):SimpleType<int,3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1717,7 +1712,7 @@ class Ivec3: public SimpleType<int,3>{
 // ivec4
 class Ivec4: public SimpleType<int,4>{
   public:
-  Ivec4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<int,4>(d,h){
+  Ivec4(Document* d, XmlElement* h = 0):SimpleType<int,4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1730,7 +1725,7 @@ class Ivec4: public SimpleType<int,4>{
 // vec2
 class Vec2: public SimpleType<float,2>{
   public:
-  Vec2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2>(d,h){
+  Vec2(Document* d, XmlElement* h = 0):SimpleType<float,2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1741,7 +1736,7 @@ class Vec2: public SimpleType<float,2>{
 // vec3
 class Vec3: public SimpleType<float,3>{
   public:
-  Vec3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3>(d,h){
+  Vec3(Document* d, XmlElement* h = 0):SimpleType<float,3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1752,7 +1747,7 @@ class Vec3: public SimpleType<float,3>{
 // vec4
 class Vec4: public SimpleType<float,4>{
   public:
-  Vec4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4>(d,h){
+  Vec4(Document* d, XmlElement* h = 0):SimpleType<float,4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1763,7 +1758,7 @@ class Vec4: public SimpleType<float,4>{
 // mat2
 class Mat2: public SimpleType<float,2*2>{
   public:
-  Mat2(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,2*2>(d,h){
+  Mat2(Document* d, XmlElement* h = 0):SimpleType<float,2*2>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1774,7 +1769,7 @@ class Mat2: public SimpleType<float,2*2>{
 // mat3
 class Mat3: public SimpleType<float,3*3>{
   public:
-  Mat3(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,3*3>(d,h){
+  Mat3(Document* d, XmlElement* h = 0):SimpleType<float,3*3>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1785,7 +1780,7 @@ class Mat3: public SimpleType<float,3*3>{
 // mat4
 class Mat4: public SimpleType<float,4*4>{
   public:
-  Mat4(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<float,4*4>(d,h){
+  Mat4(Document* d, XmlElement* h = 0):SimpleType<float,4*4>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1861,7 +1856,7 @@ are implemented in their own header and source files
 //list_of_names_type
 class List_of_names_type: public SimpleArrayType<std::string>{
   public:
-  List_of_names_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleArrayType<std::string>(d,h){
+  List_of_names_type(Document* d, XmlElement* h = 0):SimpleArrayType<std::string>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1872,7 +1867,7 @@ class List_of_names_type: public SimpleArrayType<std::string>{
 //list_of_tokens_type
 class List_of_tokens_type: public SimpleArrayType<std::string>{
   public:
-  List_of_tokens_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleArrayType<std::string>(d,h){
+  List_of_tokens_type(Document* d, XmlElement* h = 0):SimpleArrayType<std::string>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1883,7 +1878,7 @@ class List_of_tokens_type: public SimpleArrayType<std::string>{
 //sid_type
 class Sid_type: public SimpleType<std::string,1>{
   public:
-  Sid_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<std::string,1>(d,h){
+  Sid_type(Document* d, XmlElement* h = 0):SimpleType<std::string,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1894,7 +1889,7 @@ class Sid_type: public SimpleType<std::string,1>{
 //sidref_type
 class Sidref_type: public SimpleType<std::string,1>{
   public:
-  Sidref_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<std::string,1>(d,h){
+  Sidref_type(Document* d, XmlElement* h = 0):SimpleType<std::string,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){
@@ -1905,7 +1900,7 @@ class Sidref_type: public SimpleType<std::string,1>{
 //urifragment_type
 class Urifragment_type: public SimpleType<std::string,1>{
   public:
-  Urifragment_type(Document* d, TiXmlHandle h = TiXmlHandle(0)):SimpleType<std::string,1>(d,h){
+  Urifragment_type(Document* d, XmlElement* h = 0):SimpleType<std::string,1>(d,h){
   }
   static const std::string Name;
   std::string getName(){

@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Input_shared
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h),IsInput(this){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h),IsInput(this){
 
   /* attributes */
   createAttribute(attrib_offset,"offset");

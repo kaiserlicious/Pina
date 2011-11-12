@@ -42,45 +42,49 @@ THIS::~THIS(){
     log.pop();
   }
   elements.clear();
+  delete xmlParser;
 }
 
 bool THIS::save(std::string filename){
+  /*
   postLogEntry(new LogEntry<Enum::Info>("Document","Saving to file: "+filename));
   if(!collada){
     postLogEntry(new LogEntry<Enum::Error>("Document","No COLLADA element"));
     return false;
   }
-  TiXmlDocument doc;
-  TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
+  XmlDocument doc;
+  XmlDeclaration * decl = new XmlDeclaration( "1.0", "", "" );
   doc.LinkEndChild(decl);
   doc.LinkEndChild(collada->write());
   if(doc.SaveFile(filename.c_str())){
-    postLogEntry(new LogEntry<Enum::Info>("Document","TiXmlDocument successfully writen to disk"));
+    postLogEntry(new LogEntry<Enum::Info>("Document","XmlDocument successfully writen to disk"));
   }
   else{
-    postLogEntry(new LogEntry<Enum::Error>("Document","Failed to write TiXmlDocument to disk"));
+    postLogEntry(new LogEntry<Enum::Error>("Document","Failed to write XmlDocument to disk"));
   }
   return true;
+  */
+  return false;
 }
 
 bool THIS::load(std::string filename){
-  TiXmlDocument doc;
-  bool load_okay = doc.LoadFile(filename);
+  XmlDocument* doc = xmlParser->newDocument();
+  bool load_okay = doc->load(filename);
   if(! load_okay){
     postLogEntry(new LogEntry<Enum::Error>("Document","cant find file " + filename + " , aborting!"));
     return false;
   }
-  TiXmlHandle root_handle(0);
-  bool root_okay = doc.RootElement();
+  XmlElement* root_handle(0);
+  bool root_okay = doc->getRootElement();
   if (root_okay){
     postLogEntry(new LogEntry<Enum::Info>("Document","root OK"));
-    root_handle = doc.RootElement();
+    root_handle = doc->getRootElement();
   }
   else{
     postLogEntry(new LogEntry<Enum::Error>("Document","cant find root, aborting!"));
     return false;
   }
-  bool collada_okay = root_handle.ToElement()->ValueStr() == "COLLADA";
+  bool collada_okay = root_handle->getName() == "COLLADA";
   if(load_okay && root_okay && collada_okay){
     postLogEntry(new LogEntry<Enum::Info>("Document","found Colllada"));
     collada = new Collada(this,root_handle);
@@ -118,6 +122,11 @@ Element* THIS::searchId(Element* element,std::string url){
   }
   return 0;
 }
+
+XmlElement* THIS::createXmlElement(std::string name){
+  return xmlParser->newElement(name);
+}
+
 
 bool THIS::popLogEntry(){
   if(log.empty()){

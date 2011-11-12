@@ -24,15 +24,15 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Title
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
 
   /* children */
 
   /* data */
-  if(handle.ToElement()){
-    title = handle.ToElement()->GetText();
+  if(handle){
+    title = handle->getText();
   }
 
 }
@@ -46,14 +46,13 @@ void THIS::order(){ children.sort(Ordering<Types>()); } const std::string THIS::
 THIS::~THIS(){
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
-  TiXmlElement* element = new TiXmlElement(getName());
-  TiXmlText* text = new TiXmlText(title);
-  element->LinkEndChild(text);
+XmlElement* THIS::toXmlElement(){
+  XmlElement* element = XmlParser::environment->newElement(getName());
+  element->setText(title);
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
-    element->SetAttribute(iter->first,iter->second->toString());
+    element->setAttribute(iter->first,iter->second->toString());
     iter++;
   }
   return element;

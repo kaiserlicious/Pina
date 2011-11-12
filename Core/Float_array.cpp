@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Float_array
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
   createAttribute(attrib_count,"count");
@@ -36,9 +36,9 @@ THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
   /* children */
 
   /* data */
-  TiXmlElement* element = handle.ToElement();
+  XmlElement* element = handle;
   if(element){
-      Utils::fromString(values,element->GetText());
+      Utils::fromString(values,element->getText());
   }
 
 }
@@ -52,20 +52,19 @@ void THIS::order(){ children.sort(Ordering<Types>()); } const std::string THIS::
 THIS::~THIS(){
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
+XmlElement* THIS::toXmlElement(){
   std::stringstream stream;
   std::vector<float>::iterator float_iter;
   for(float_iter = values.begin(); float_iter != values.end(); float_iter++){
     stream << *float_iter << ' ';
   }
-  TiXmlElement* element = new TiXmlElement(getName());
-  TiXmlText* text = new TiXmlText(stream.str());
-  element->LinkEndChild(text);
+  XmlElement* element = XmlParser::environment->newElement(getName());
+  element->setText(stream.str());
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
     if(iter->second->exists()){
-      element->SetAttribute(iter->first,iter->second->toString());
+      element->setAttribute(iter->first,iter->second->toString());
     }
     iter++;
   }

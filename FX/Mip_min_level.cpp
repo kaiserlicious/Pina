@@ -28,7 +28,7 @@ namespace PINA_NAMESPACE{
 
 
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
 
@@ -36,9 +36,9 @@ THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
   buildChildren(Types());
 
   /* data */
-  TiXmlElement* element = handle.ToElement();
+  XmlElement* element = handle;
   if(element){
-    Utils::fromString(data,element->GetText());
+    Utils::fromString(data,element->getText());
   }
 
 }
@@ -56,14 +56,13 @@ const std::string THIS::Name = "mip_min_level";
 THIS::~THIS(){
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
-  TiXmlElement* element = new TiXmlElement(getName());
-  TiXmlText* text = new TiXmlText(Utils::toString(data));
-  element->LinkEndChild(text);
+XmlElement* THIS::toXmlElement(){
+  XmlElement* element = XmlParser::environment->newElement(getName());
+  element->setText(Utils::toString(data));
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
-    element->SetAttribute(iter->first,iter->second->toString());
+    element->setAttribute(iter->first,iter->second->toString());
     iter++;
   }
   return element;

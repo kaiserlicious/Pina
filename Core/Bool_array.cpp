@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Bool_array
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
   createAttribute(attrib_count,"count");
@@ -32,10 +32,10 @@ THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
   createAttribute(attrib_name,"name");
 
   /* data */
-  TiXmlElement* element = handle.ToElement();
+  XmlElement* element = handle;
   if(element){
     std::vector<std::string> strings;
-    Utils::fromString(strings,element->GetText());
+    Utils::fromString(strings,element->getText());
     std::vector<std::string>::iterator iter;
     for(iter = strings.begin(); iter != strings.end(); iter++){
       values.push_back((*iter) == "true" ? true : false);
@@ -56,7 +56,7 @@ const std::string THIS::Name = "bool_array";
 THIS::~THIS(){
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
+XmlElement* THIS::toXmlElement(){
   std::stringstream stream;
   std::vector<bool>::iterator bool_iter;
   for(bool_iter = values.begin(); bool_iter != values.end(); bool_iter++){
@@ -67,13 +67,12 @@ TiXmlElement* THIS::toTiXmlElement(){
       stream << "false";
     }
   }
-  TiXmlElement* element = new TiXmlElement(getName());
-  TiXmlText* text = new TiXmlText(stream.str());
-  element->LinkEndChild(text);
+  XmlElement* element = XmlParser::environment->newElement(getName());
+  element->setText(stream.str());
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
-    element->SetAttribute(iter->first,iter->second->toString());
+    element->setAttribute(iter->first,iter->second->toString());
     iter++;
   }
   return element;

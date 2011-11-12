@@ -21,11 +21,12 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "Altitude.h"
 #include "../Templates/Ordering.h"
 #include "../Utils/Utils.h"
+#include "../Document.h"
 
 #define THIS Altitude
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
   createAttribute(attrib_mode,"mode",Enum::RELATIVE_TO_GROUND);
@@ -33,9 +34,8 @@ THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
   /* children */
 
   /* data */
-  TiXmlElement* element = h.ToElement();
-  if(element){
-    Utils::fromString(altitude,element->GetText());
+  if(handle){
+    Utils::fromString(altitude,handle->getText());
   }
 }
 
@@ -50,14 +50,13 @@ const std::string THIS::Name = "altitude";
 THIS::~THIS(){
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
-  TiXmlElement* element = new TiXmlElement(getName());
-  TiXmlText * text = new TiXmlText(Utils::toString(altitude));
-  element->LinkEndChild(text);
+XmlElement* THIS::toXmlElement(){
+  XmlElement* element = getDocument()->createXmlElement(getName());
+  element->setText(Utils::toString(altitude));
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
-    element->SetAttribute(iter->first,iter->second->toString());
+    element->setAttribute(iter->first,iter->second->toString());
     iter++;
   }
   return element;

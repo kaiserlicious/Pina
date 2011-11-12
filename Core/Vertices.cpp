@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Vertices
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):ElementWithInput_unshared(d,h){
+THIS::THIS(Document* d, XmlElement* h):ElementWithInput_unshared(d,h){
 
   /* attributes */
   createAttribute(attrib_id,"id");

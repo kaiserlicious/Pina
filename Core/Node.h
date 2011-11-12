@@ -49,7 +49,7 @@ class Instance_node;
 */
 class THIS: public Element{
   public:
-   THIS(Document* d, TiXmlHandle h = TiXmlHandle(0));
+   THIS(Document* d, XmlElement* h = 0);
   std::string getName();
   ~THIS();
   static const std::string Name;

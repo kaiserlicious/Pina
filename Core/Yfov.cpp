@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Yfov
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
   createAttribute(attrib_sid,"sid");
@@ -32,9 +32,9 @@ THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
   /** children**/
 
   /* data */
-  TiXmlElement* element = handle.ToElement();
+  XmlElement* element = handle;
   if(element){
-    Utils::fromString(value,element->GetText());
+    Utils::fromString(value,element->getText());
   }
 }
 
@@ -47,14 +47,13 @@ void THIS::order(){ children.sort(Ordering<Types>()); } const std::string THIS::
 THIS::~THIS(){
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
-  TiXmlElement* element = new TiXmlElement(getName());
-  TiXmlText* text = new TiXmlText(Utils::toString(value));
-  element->LinkEndChild(text);
+XmlElement* THIS::toXmlElement(){
+  XmlElement* element = XmlParser::environment->newElement(getName());
+  element->setText(Utils::toString(value));
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
-    element->SetAttribute(iter->first,iter->second->toString());
+    element->setAttribute(iter->first,iter->second->toString());
     iter++;
   }
   return element;

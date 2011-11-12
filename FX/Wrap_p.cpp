@@ -28,7 +28,7 @@ namespace PINA_NAMESPACE{
 
 
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
 
@@ -36,9 +36,9 @@ THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
   buildChildren(Types());
 
   /* data */
-  TiXmlElement* element = handle.ToElement();
+  XmlElement* element = handle;
   if(element){
-    std::string str = element->GetText();
+    std::string str = element->getText();
     /*remove spaces*/
     while(str.find(" ") != std::string::npos)
     {
@@ -75,8 +75,8 @@ const std::string THIS::Name = "wrap_p";
 THIS::~THIS(){
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
-  TiXmlElement* element = new TiXmlElement(getName());
+XmlElement* THIS::toXmlElement(){
+  XmlElement* element = XmlParser::environment->newElement(getName());
   std::string str;
   switch(data){
     case Enum::WRAP:{str = "WRAP";}
@@ -85,12 +85,11 @@ TiXmlElement* THIS::toTiXmlElement(){
     case Enum::BORDER:{str = "BORDER";}
     case Enum::MIRROR_ONCE:{str = "MIRROR_ONCE";}
   }
-  TiXmlText* text = new TiXmlText(str);
-  element->LinkEndChild(text);
+  element->setText(str);
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
-    element->SetAttribute(iter->first,iter->second->toString());
+    element->setAttribute(iter->first,iter->second->toString());
     iter++;
   }
   return element;

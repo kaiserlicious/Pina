@@ -28,7 +28,7 @@ namespace PINA_NAMESPACE{
 
 
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
 
@@ -36,8 +36,8 @@ THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
   buildChildren(Types());
 
   /* data */
-  if(handle.ToElement()){
-    data = handle.ToElement()->GetText();
+  if(handle){
+    data = handle->getText();
   }
 
 }
@@ -55,14 +55,13 @@ const std::string THIS::Name = "ref";
 THIS::~THIS(){
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
-  TiXmlElement* element = new TiXmlElement(getName());
-  TiXmlText* text = new TiXmlText(data);
-  element->LinkEndChild(text);
+XmlElement* THIS::toXmlElement(){
+  XmlElement* element = XmlParser::environment->newElement(getName());
+  element->setText(data);
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
-    element->SetAttribute(iter->first,iter->second->toString());
+    element->setAttribute(iter->first,iter->second->toString());
     iter++;
   }
   return element;

@@ -25,7 +25,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Ambient
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
 

@@ -24,13 +24,13 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Up_axis
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
 
   /* children */
-  if(handle.ToElement()){
-    std::string s = h.ToElement()->GetText();
+  if(handle){
+    std::string s = handle->getText();
     axis = Y_UP;
     if(s == "X_UP"){ axis = X_UP; }
     if(s == "Z_UP"){ axis = Z_UP; }
@@ -47,28 +47,28 @@ void THIS::order(){ children.sort(Ordering<Types>()); } const std::string THIS::
 THIS::~THIS(){
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
-  TiXmlElement* element = new TiXmlElement(getName());
-  TiXmlText* text=0;
+XmlElement* THIS::toXmlElement(){
+  XmlElement* element = XmlParser::environment->newElement(getName());
+  std::string text=0;
   switch(axis){
     case(X_UP):{
-      text = new TiXmlText("X_UP");
+      text = "X_UP";
       break;
     }
     case(Y_UP):{
-      text = new TiXmlText("Y_UP");
+      text = "Y_UP";
       break;
     }
     case(Z_UP):{
-      text = new TiXmlText("Z_UP");
+      text = "Z_UP";
       break;
     }
   }
-  element->LinkEndChild(text);
+  element->setText(text);
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
-    element->SetAttribute(iter->first,iter->second->toString());
+    element->setAttribute(iter->first,iter->second->toString());
     iter++;
   }
   return element;

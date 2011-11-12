@@ -24,12 +24,12 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Spline
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
-  if(handle.ToElement()){
+  if(handle){
     std::string str;
-    str = h.ToElement()->GetText();
+    str = handle->getText();
     if(str == "true"){
       attrib_closed = true;
     }

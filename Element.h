@@ -27,7 +27,8 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <list>
 
-#include "Tinyxml/tinyxml.h"
+//#include "Tinyxml/tinyxml.h"
+#include "Xml/Xml.h"
 #include "Types/Attribute.h"
 #include "TypeInfo/TypeInfo.h"
 #include "Utils/Utils.h"
@@ -40,7 +41,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define STATIC_CHECKED_FUNCTIONS
 
 namespace PINA_NAMESPACE{
-  class Document;
+    class Document;
 }
 
 #define THIS Element
@@ -66,7 +67,7 @@ public:
 
   A Element will be deleted when the Document it belongs to is deleted. Do not delete Elements by hand, as they could be used by other elements. To remove unwanted child elements use the removeElement function.
   */
-  THIS(Document* d, TiXmlHandle h = TiXmlHandle(0));
+  THIS(Document* d, XmlElement* h = 0);
 
   /**
   @brief Remove a child element
@@ -296,7 +297,7 @@ public:
   @return Pointer to the created xml-element
   @note Only the element it self will be converted, but not its children. To build the elment and its children use write()
   */
-  virtual TiXmlElement* toTiXmlElement();
+  virtual XmlElement* toXmlElement();
 
   /**
   @brief Write the element and its children to xml-element
@@ -304,7 +305,7 @@ public:
 
   This function will build the complete xml tree, containing the element and all its children
   */
-  TiXmlElement* write();
+  XmlElement* write();
 
   /**
   @brief The destructor
@@ -353,7 +354,7 @@ protected:
   /**
   */
   template<typename Head, typename Tail>
-  THIS* createElement(Type2Type<Typelist<Head,Tail> >,std::string name, TiXmlHandle h){
+  THIS* createElement(Type2Type<Typelist<Head,Tail> >,std::string name, XmlElement* h){
     if(Head::Name == name){
       postToLog(new LogEntry<Enum::Debug>(getName(),"Going to create " + Head::Name ));
       return new Head(document,h);
@@ -365,7 +366,7 @@ protected:
 
   /**
   */
-  THIS* createElement(Type2Type<NullType>,std::string name, TiXmlHandle h){
+  THIS* createElement(Type2Type<NullType>,std::string name, XmlElement* h){
     #if PINA_ALLOW_UNDEFINED
       postToLog(new LogEntry<Enum::Debug>(getName(),"Going to create unknown element with name: " + name ));
       return buildUnkown(document,h);
@@ -373,23 +374,19 @@ protected:
     return 0;
   }
 
-  static THIS* buildUnkown(Document* doc, TiXmlHandle h);
+  static THIS* buildUnkown(Document* doc, XmlElement* h);
 
   /**
   @brief Build the children of the element
   */
   template<typename T>
   void buildChildren(T){
-    if(handle.ToNode()){
-      TiXmlNode* node =0;
-      TiXmlElement* element =0;
-      while( (node = handle.ToNode()->IterateChildren(node)) ){
-        element = node->ToElement();
-        if(element){
-          std::string name = element->ValueStr();
-          TiXmlHandle newHandle = TiXmlHandle(element);
-          add(createElement(Type2Type<T>(),name,newHandle));
-        }
+    if(handle){
+      XmlElement* element = handle->nextChild();
+      while( element ){
+        std::string name = element->getName();
+        add(createElement(Type2Type<T>(),name,element));
+        handle->nextChild();
       }
     }
   }
@@ -421,7 +418,7 @@ protected:
   void postToLog(LogEntry<Enum::Fatal>* logEntry);
 
   /* data */
-  TiXmlHandle handle; /// Handle to the xml element
+  XmlElement* handle; /// Handle to the xml element
   Document* document; /// The document the element belongs to
   std::map<std::string,AbstractAttribute*> attributes; /// The attributes of the element
   std::list<std::pair<TypeInfo,THIS*> > children; /// The children of the element

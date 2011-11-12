@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS SIDREF_array
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
   createAttribute(attrib_count,"count");
@@ -32,9 +32,9 @@ THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
   createAttribute(attrib_name,"name");
 
   /* children */
-  TiXmlElement* element = handle.ToElement();
+  XmlElement* element = handle;
   if(element){
-    Utils::fromString(values,element->GetText());
+    Utils::fromString(values,element->getText());
   }
 
 }
@@ -48,19 +48,18 @@ void THIS::order(){ children.sort(Ordering<Types>()); } const std::string THIS::
 THIS::~THIS(){
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
+XmlElement* THIS::toXmlElement(){
   std::stringstream stream;
   std::vector<std::string>::iterator string_iter;
   for(string_iter = values.begin(); string_iter != values.end(); string_iter++){
     stream << *string_iter << ' ';
   }
-  TiXmlElement* element = new TiXmlElement(getName());
-  TiXmlText* text = new TiXmlText(stream.str());
-  element->LinkEndChild(text);
+  XmlElement* element = XmlParser::environment->newElement(getName());
+  element->setText(stream.str());
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
-    element->SetAttribute(iter->first,iter->second->toString());
+    element->setAttribute(iter->first,iter->second->toString());
     iter++;
   }
   return element;

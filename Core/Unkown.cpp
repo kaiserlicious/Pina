@@ -24,26 +24,22 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Unkown
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
-  TiXmlElement* element = handle.Element();
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
+  XmlElement* element = handle;
   if( element ){
     /* determine the name of the unkown element */
-    name = element->ValueTStr();
+    name = element->getName();
     /* attributes */
-    TiXmlAttribute* attribute = element->FirstAttribute();
-    while(attribute){
-      postToLog(new LogEntry<Enum::Debug>(getName(),"Creating unknown attribute with name "
-      + attribute->NameTStr() + " with value " + attribute->ValueStr()));
+    std::string attribName, attribValue;
+    while(element->nextAttribute(attribName,attribValue)){
+      postToLog(new LogEntry<Enum::Debug>(getName(),"Creating unknown attribute with name " + attribName + " with value " + attribValue));
       /* must add attribute directly (not via addattribute) to avoid checking if element has such an attribute (...element has no attrbiute with name...) */
-      std::string a_name = attribute->NameTStr();
-      std::pair<std::string,AbstractAttribute*> a_pair(a_name,new Attribute<std::string>(a_name,attribute->ValueStr()));
-      attributes.insert(a_pair);
-      attribute = attribute->Next();
+      attributes.insert(std::make_pair(attribName,new Attribute<std::string>(attribName,attribValue)));
     }
     /* children */
     buildChildren(Types());
     /*data*/
-    data = element->GetText();
+    data = element->getText();
   }
 
 }
@@ -62,14 +58,13 @@ void THIS::order(){
 THIS::~THIS(){
 }
 
-TiXmlElement* THIS::toTiXmlElement(){
-  TiXmlElement* element = new TiXmlElement(getName());
-  TiXmlText* text = new TiXmlText(data);
-  element->LinkEndChild(text);
+XmlElement* THIS::toXmlElement(){
+  XmlElement* element = XmlParser::environment->newElement(getName());
+  element->setText(data);
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
-    element->SetAttribute(iter->first,iter->second->toString());
+    element->setAttribute(iter->first,iter->second->toString());
     iter++;
   }
   return element;

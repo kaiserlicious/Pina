@@ -28,7 +28,7 @@ namespace PINA_NAMESPACE{
 
 
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
   createAttribute(attrib_sid,"sid");
@@ -37,9 +37,9 @@ THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
   buildChildren(Types());
 
   /* data */
-  TiXmlElement* element = h.ToElement();
+  XmlElement* element = handle;
   if(element){
-    Utils::fromString(data,element->GetText());
+    Utils::fromString(data,element->getText());
   }
 
 }

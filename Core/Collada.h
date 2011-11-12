@@ -63,8 +63,8 @@ namespace PINA_NAMESPACE{
 */
 class THIS: public Element{
   public:
-  THIS(Document* d, TiXmlHandle h = TiXmlHandle(0));
-  THIS(TiXmlHandle* h);
+  THIS(Document* d, XmlElement* h = 0);
+  //THIS(XmlHandle* h);
   std::string getName();
   ~THIS();
   static const std::string Name;

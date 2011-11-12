@@ -22,7 +22,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define COLLADA_ATTRIBUTE_H
 
 #include <string>
-#include "../Tinyxml/tinyxml.h"
+#include "../Xml/Xml.h"
 #include "../Types/Enum.h"
 #include "../Config.h"
 #include "../Math/Math.h"
@@ -90,21 +90,20 @@ class THIS:public AttributeBase<T>{
   public:
   THIS():AttributeBase<T>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<T>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<T>(name){
     initData(h,name);
   }
 
-  THIS(std::string name, T default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<T>(name){
+  THIS(std::string name, T default_value,XmlElement* h = 0):AttributeBase<T>(name){
     if(!initData(h,name)){
       AttributeBase<T>::data = new T(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     T result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryValueAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       AttributeBase<T>::data = new T(result);
       return true;
     }
@@ -134,20 +133,19 @@ class THIS<std::string>:public AttributeBase<std::string>{
   public:
   THIS<std::string>():AttributeBase<std::string>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<std::string>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<std::string>(name){
     initData(h,name);
   }
-  THIS<std::string>(std::string name, std::string default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<std::string>(name){
+  THIS<std::string>(std::string name, std::string default_value, XmlElement* h = 0):AttributeBase<std::string>(name){
     if(!initData(h,name)){
       AttributeBase<std::string>::data = new std::string(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result) == TIXML_SUCCESS){
       AttributeBase<std::string>::data = new std::string(result);
       return true;
     }
@@ -178,21 +176,20 @@ class THIS<Enum::Altidude>:public AttributeBase<Enum::Altidude>{
   public:
   THIS<Enum::Altidude>():AttributeBase<Enum::Altidude>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Altidude>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Altidude>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Altidude>(std::string name, Enum::Altidude default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Altidude>(name){
+  THIS<Enum::Altidude>(std::string name, Enum::Altidude default_value,XmlElement* h = 0):AttributeBase<Enum::Altidude>(name){
     if(!initData(h,name)){
       AttributeBase<Enum::Altidude>::data = new Enum::Altidude( default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
      if(result == "absolute"){
         AttributeBase<Enum::Altidude>::data = new Enum::Altidude(Enum::ABSOLUTE);
       }
@@ -233,21 +230,20 @@ class THIS<bool>:public AttributeBase<bool>{
   public:
   THIS<bool>():AttributeBase<bool>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<bool>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<bool>(name){
     initData(h,name);
   }
 
-  THIS<bool>(std::string name, bool default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<bool>(name){
+  THIS<bool>(std::string name, bool default_value,XmlElement* h = 0):AttributeBase<bool>(name){
     if(!initData(h,name)){
       AttributeBase<bool>::data = new bool(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "true"){
         AttributeBase<bool>::data = new bool(true);
       }
@@ -286,21 +282,20 @@ class THIS<Enum::NodeType::Type>:public AttributeBase<Enum::NodeType::Type>{
   public:
   THIS<Enum::NodeType::Type>():AttributeBase<Enum::NodeType::Type>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::NodeType::Type>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::NodeType::Type>(name){
     initData(h,name);
   }
 
-  THIS<Enum::NodeType::Type>(std::string name, Enum::NodeType::Type default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::NodeType::Type>(name){
+  THIS<Enum::NodeType::Type>(std::string name, Enum::NodeType::Type default_value,XmlElement* h = 0):AttributeBase<Enum::NodeType::Type>(name){
     if(initData(h,name)){
       AttributeBase<Enum::NodeType::Type>::data = new Enum::NodeType::Type(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "JOINT"){
         AttributeBase<Enum::NodeType::Type>::data = new Enum::NodeType::Type(Enum::NodeType::JOINT);
       }
@@ -337,21 +332,20 @@ class THIS<Enum::Semantic>:public AttributeBase<Enum::Semantic>{
   public:
   THIS<Enum::Semantic>():AttributeBase<Enum::Semantic>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Semantic>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Semantic>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Semantic>(std::string name, Enum::Semantic default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Semantic>(name){
+  THIS<Enum::Semantic>(std::string name, Enum::Semantic default_value,XmlElement* h = 0):AttributeBase<Enum::Semantic>(name){
     if(!initData(h,name)){
       AttributeBase<Enum::Semantic>::data = data = new Enum::Semantic(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "BINORMAL"){data = new Enum::Semantic(Enum::BINORMAL);}
       if(result == "COLOR"){data = new Enum::Semantic(Enum::COLOR);}
       if(result == "CONTINUITY"){data = new Enum::Semantic(Enum::CONTINUITY);}
@@ -426,21 +420,20 @@ class THIS<Enum::Method>:public AttributeBase<Enum::Method>{
   public:
   THIS<Enum::Method>():AttributeBase<Enum::Method>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Method>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Method>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Method>(std::string name, Enum::Method default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Method>(name){
+  THIS<Enum::Method>(std::string name, Enum::Method default_value,XmlElement* h = 0):AttributeBase<Enum::Method>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Method>::data = new Enum::Method(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "NORMALIZED"){
         AttributeBase<Enum::Method>::data = new Enum::Method(Enum::NORMALIZED);
       }
@@ -477,21 +470,20 @@ class THIS<Enum::Behavior>:public AttributeBase<Enum::Behavior>{
   public:
   THIS<Enum::Behavior>():AttributeBase<Enum::Behavior>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Behavior>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Behavior>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Behavior>(std::string name, Enum::Behavior default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Behavior>(name){
+  THIS<Enum::Behavior>(std::string name, Enum::Behavior default_value,XmlElement* h = 0):AttributeBase<Enum::Behavior>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Behavior>::data = new Enum::Behavior(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "UNDEFINED"){
         AttributeBase<Enum::Behavior>::data = new Enum::Behavior(Enum::UNDEFINED);
       }
@@ -544,21 +536,20 @@ class THIS<Enum::Operator>:public AttributeBase<Enum::Operator>{
   public:
   THIS<Enum::Operator>():AttributeBase<Enum::Operator>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Operator>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Operator>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Operator>(std::string name, Enum::Operator default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Operator>(name){
+  THIS<Enum::Operator>(std::string name, Enum::Operator default_value,XmlElement* h = 0):AttributeBase<Enum::Operator>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Operator>::data = new Enum::Operator(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "REPLACE"){
         AttributeBase<Enum::Operator>::data = new Enum::Operator(Enum::REPLACE);
       }
@@ -611,21 +602,20 @@ class THIS<Enum::Source::Value>:public AttributeBase<Enum::Source::Value>{
   public:
   THIS<Enum::Source::Value>():AttributeBase<Enum::Source::Value>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Source::Value>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Source::Value>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Source::Value>(std::string name, Enum::Source::Value default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Source::Value>(name){
+  THIS<Enum::Source::Value>(std::string name, Enum::Source::Value default_value,XmlElement* h = 0):AttributeBase<Enum::Source::Value>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Source::Value>::data = new Enum::Source::Value(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "TEXTURE"){
         AttributeBase<Enum::Source::Value>::data = new Enum::Source::Value(Enum::Source::TEXTURE);
       }
@@ -670,21 +660,20 @@ class THIS<Enum::Operand>:public AttributeBase<Enum::Operand>{
   public:
   THIS<Enum::Operand>():AttributeBase<Enum::Operand>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Operand>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Operand>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Operand>(std::string name, Enum::Operand default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Operand>(name){
+  THIS<Enum::Operand>(std::string name, Enum::Operand default_value,XmlElement* h = 0):AttributeBase<Enum::Operand>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Operand>::data = new Enum::Operand(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "SRC_COLOR"){
         AttributeBase<Enum::Operand>::data = new Enum::Operand(Enum::SRC_COLOR);
       }
@@ -729,21 +718,20 @@ class THIS<Enum::Face>:public AttributeBase<Enum::Face>{
   public:
   THIS<Enum::Face>():AttributeBase<Enum::Face>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Face>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Face>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Face>(std::string name, Enum::Face default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Face>(name){
+  THIS<Enum::Face>(std::string name, Enum::Face default_value,XmlElement* h = 0):AttributeBase<Enum::Face>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Face>::data = new Enum::Face(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "POSITIVE_X"){
         AttributeBase<Enum::Face>::data = new Enum::Face(Enum::POSITIVE_X);
       }
@@ -796,21 +784,20 @@ class THIS<Enum::Channel>:public AttributeBase<Enum::Channel>{
   public:
   THIS<Enum::Channel>():AttributeBase<Enum::Channel>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Channel>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Channel>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Channel>(std::string name, Enum::Channel default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Channel>(name){
+  THIS<Enum::Channel>(std::string name, Enum::Channel default_value,XmlElement* h = 0):AttributeBase<Enum::Channel>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Channel>::data = new Enum::Channel(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "RGB"){
         AttributeBase<Enum::Channel>::data = new Enum::Channel(Enum::RGB);
       }
@@ -863,21 +850,20 @@ class THIS<Enum::Range>:public AttributeBase<Enum::Range>{
   public:
   THIS<Enum::Range>():AttributeBase<Enum::Range>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Range>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Range>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Range>(std::string name, Enum::Range default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Range>(name){
+  THIS<Enum::Range>(std::string name, Enum::Range default_value,XmlElement* h = 0):AttributeBase<Enum::Range>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Range>::data = new Enum::Range(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "SNOR"){
         AttributeBase<Enum::Range>::data = new Enum::Range(Enum::SNOR);
       }
@@ -926,21 +912,20 @@ class THIS<Enum::Precision>:public AttributeBase<Enum::Precision>{
   public:
   THIS<Enum::Precision>():AttributeBase<Enum::Precision>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Precision>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Precision>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Precision>(std::string name, Enum::Precision default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Precision>(name){
+  THIS<Enum::Precision>(std::string name, Enum::Precision default_value,XmlElement* h = 0):AttributeBase<Enum::Precision>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Precision>::data = new Enum::Precision(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "DEFAULT"){
         AttributeBase<Enum::Precision>::data = new Enum::Precision(Enum::DEFAULT);
       }
@@ -989,21 +974,20 @@ class THIS<Enum::Shader::Stage>:public AttributeBase<Enum::Shader::Stage>{
   public:
   THIS<Enum::Shader::Stage>():AttributeBase<Enum::Shader::Stage>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Shader::Stage>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Shader::Stage>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Shader::Stage>(std::string name, Enum::Shader::Stage default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Shader::Stage>(name){
+  THIS<Enum::Shader::Stage>(std::string name, Enum::Shader::Stage default_value,XmlElement* h = 0):AttributeBase<Enum::Shader::Stage>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Shader::Stage>::data = new Enum::Shader::Stage(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "TESSELATION"){
         AttributeBase<Enum::Shader::Stage>::data = new Enum::Shader::Stage(Enum::Shader::TESSELATION);
       }
@@ -1048,21 +1032,20 @@ class THIS<Enum::Opaque>:public AttributeBase<Enum::Opaque>{
   public:
   THIS<Enum::Opaque>():AttributeBase<Enum::Opaque>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Opaque>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Opaque>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Opaque>(std::string name, Enum::Opaque default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Opaque>(name){
+  THIS<Enum::Opaque>(std::string name, Enum::Opaque default_value,XmlElement* h = 0):AttributeBase<Enum::Opaque>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Opaque>::data = new Enum::Opaque(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "A_ONE"){
         AttributeBase<Enum::Opaque>::data = new Enum::Opaque(Enum::A_ONE);
       }
@@ -1107,21 +1090,20 @@ class THIS<Enum::Rgb::Operator>:public AttributeBase<Enum::Rgb::Operator>{
   public:
   THIS<Enum::Rgb::Operator>():AttributeBase<Enum::Rgb::Operator>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Rgb::Operator>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Rgb::Operator>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Rgb::Operator>(std::string name, Enum::Rgb::Operator default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Rgb::Operator>(name){
+  THIS<Enum::Rgb::Operator>(std::string name, Enum::Rgb::Operator default_value,XmlElement* h = 0):AttributeBase<Enum::Rgb::Operator>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Rgb::Operator>::data = new Enum::Rgb::Operator(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "REPLACE"){
         AttributeBase<Enum::Rgb::Operator>::data = new Enum::Rgb::Operator(Enum::Rgb::REPLACE);
       }
@@ -1181,21 +1163,20 @@ class THIS<Math::Vector<float,4> >:public AttributeBase<Math::Vector<float,4> >{
   public:
   THIS<Math::Vector<float,4> >():AttributeBase<Math::Vector<float,4> >(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Math::Vector<float,4> >(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Math::Vector<float,4> >(name){
     initData(h,name);
   }
 
-  THIS<Math::Vector<float,4> >(std::string name, Math::Vector<float,4> default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Math::Vector<float,4> >(name){
+  THIS<Math::Vector<float,4> >(std::string name, Math::Vector<float,4> default_value,XmlElement* h = 0):AttributeBase<Math::Vector<float,4> >(name){
     if(initData(h,name)){
       AttributeBase<Math::Vector<float,4> >::data = new Math::Vector<float,4>(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       data = new Math::Vector<float,4>;
       Utils::fromString(*data,result);
       return true;
@@ -1225,21 +1206,20 @@ class THIS<Enum::Texenv::Operator>:public AttributeBase<Enum::Texenv::Operator>{
   public:
   THIS<Enum::Texenv::Operator>():AttributeBase<Enum::Texenv::Operator>(std::string()){}
 
-  THIS(std::string name, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Texenv::Operator>(name){
+  THIS(std::string name, XmlElement* h = 0):AttributeBase<Enum::Texenv::Operator>(name){
     initData(h,name);
   }
 
-  THIS<Enum::Texenv::Operator>(std::string name, Enum::Texenv::Operator default_value, TiXmlHandle h = TiXmlHandle(0)):AttributeBase<Enum::Texenv::Operator>(name){
+  THIS<Enum::Texenv::Operator>(std::string name, Enum::Texenv::Operator default_value,XmlElement* h = 0):AttributeBase<Enum::Texenv::Operator>(name){
     if(initData(h,name)){
       AttributeBase<Enum::Texenv::Operator>::data = new Enum::Texenv::Operator(default_value);
     }
   }
 
-  bool initData(TiXmlHandle handle, const std::string& name){
+  bool initData(XmlElement* handle, const std::string& name){
     std::string result;
-    TiXmlElement* element = handle.ToElement();
-    if(!element){ return false; }
-    if(element->QueryStringAttribute(name,&result) == TIXML_SUCCESS){
+    if(!handle){ return false; }
+    if(handle->queryAttribute(name,result)){
       if(result == "    REPLACE"){
         AttributeBase<Enum::Texenv::Operator>::data = new Enum::Texenv::Operator(Enum::Texenv::REPLACE);
       }

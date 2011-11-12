@@ -1,4 +1,4 @@
-/*copyright 2010 Simon Graeser*/
+/*copyright 2011 Simon Graeser*/
 
 /*
 This file is part of Pina.
@@ -27,19 +27,22 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace PINA_NAMESPACE{
 
+
   class XmlElement{
     public:
-    virtual XmlElement* getFirstChild() =0;
-    virtual XmlElement* getFirstChild(std::string) =0;
-    virtual XmlElement* nextSibling() =0;
-    virtual XmlElement* previousSibling() =0;
-    virtual bool getAttributeText(const std::string& name, std::string& out) =0;
+    virtual void toFirstChild() =0;
+    virtual XmlElement* nextChild() =0;
+    virtual void appendChild(XmlElement* child) =0;
+    virtual void setAttribute(std::string name, std::string value) =0;
+    virtual bool getAttribute(const std::string& name, std::string& out) =0;
+    virtual bool nextAttribute(std::string& name, std::string& value) =0;
     virtual std::string getText() =0;
+    virtual void setText(std::string text) =0;
     virtual std::string getName() =0;
     template<typename T>
     bool queryAttribute(const std::string& name,T& out){
       std::string text;
-      if(getAttributeText(name,text)){
+      if(getAttribute(name,text)){
         Utils::fromString(out,text);
         return true;
       }
@@ -48,61 +51,84 @@ namespace PINA_NAMESPACE{
     virtual ~XmlElement(){}
   };
 
+
+
   class XmlDocument{
     public:
     virtual bool load(std::string file) =0;
     virtual bool save(std::string file) =0;
     virtual XmlElement* getRootElement() =0;
-    virtual ~XmlDocument(){};
+    virtual ~XmlDocument(){}
   };
+
+  class XmlParser{
+  public:
+    virtual XmlElement* newElement(std::string name) =0;
+    virtual XmlDocument* newDocument() =0;
+    static XmlParser* environment;
+  };
+
 
   namespace TinyXml{
 
-    /*Tiny xml element*/
+    //Tiny xml element
     class Element : public XmlElement{
     public:
-      Element(TiXmlElement* e):tixElement(e),prev(0),next(0){
-        TiXmlNode* child =0;
-        TiXmlElement* element =0;
-        for( child = tixElement->FirstChild(); child; child = child->NextSibling() ){
-          element = child->ToElement();
-          if(element){
-            children.push_back(new Element(element));
-          }
-        }
-        if(children.size() > 1){
-          for(std::size_t i =1; i<children.size(); i++){
-            children[i]->prev = children[i-1];
-            children[i-1]->next = this;
-          }
-        }
+      Element(TiXmlElement* e):tixElement(e),child(0){
       }
 
-      XmlElement* getFirstChild(){
-        if(children.empty()){
+      Element(std::string name) : tixElement(new TiXmlElement(name)),child(0){
+      }
+
+      ~Element(){
+          std::vector<Element*>::iterator iter;
+          for(iter = children.begin(); iter != children.end(); iter++){
+              delete *iter;
+          }
+      }
+
+      XmlElement* nextChild(){
+        child = child ? child->NextSiblingElement() : tixElement->FirstChildElement();
+        if(!child){
           return 0;
         }
-        return children[0];
+        Element* xmlElement = new Element(child);
+        children.push_back(xmlElement);
+        return xmlElement;
       }
 
-      XmlElement* getFirstChild(std::string name){
-        for(std::vector<Element*>::iterator iter = children.begin(); iter < children.end(); iter++){
-          if((*iter)->getName() == name){
-            return *iter;
-          }
+      void setText(std::string text){
+        TiXmlText* tixText = new TiXmlText(text);
+        tixElement->LinkEndChild(tixText);
+      }
+
+      void appendChild(XmlElement* other){
+        Element* element = dynamic_cast<Element*>(other);
+        if(element){
+          children.push_back(element);
+          tixElement->LinkEndChild(element->tixElement);
         }
-        return 0;
       }
 
-      XmlElement* nextSibling(){
-        return next;
+      void setAttribute(std::string name, std::string value){
+        tixElement->SetAttribute(name,value);
       }
 
-      XmlElement* previousSibling(){
-        return prev;
+      bool nextAttribute(std::string& name, std::string& value){
+        attribute = attribute ? attribute->Next() : tixElement->FirstAttribute();
+        if(attribute){
+          name = attribute->Name();
+          value = attribute->Value();
+          return true;
+        }
+        return false;
       }
 
-      bool getAttributeText(const std::string& name, std::string& out){
+      void toFirstChild(){
+
+      }
+
+      bool getAttribute(const std::string& name, std::string& out){
         const std::string* attrib = tixElement->Attribute(name);
         if(attrib){
           out = *attrib;
@@ -120,13 +146,14 @@ namespace PINA_NAMESPACE{
       }
 
     private:
-      TiXmlElement* tixElement;
-      Element* prev;
-      Element* next;
       std::vector<Element*> children;
+      TiXmlElement* tixElement;
+      TiXmlElement* child;
+      TiXmlAttribute* attribute;
+
     };
 
-    /*Tiny xml document*/
+    // Tiny xml document
     class Document : public XmlDocument{
     public:
       Document(){
@@ -157,6 +184,17 @@ namespace PINA_NAMESPACE{
       Element* rootElement;
 
     };
+
+    class Parser : public XmlParser{
+    public:
+        XmlElement* newElement(std::string name){
+            return new Element(name);
+        }
+        XmlDocument* newDocument(){
+            return new Document();
+        }
+    };
+
   }//TinyXml namespace
 
 

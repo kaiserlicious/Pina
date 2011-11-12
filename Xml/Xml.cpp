@@ -1,4 +1,4 @@
-/*copyright 2010 Simon Graeser*/
+/*copyright 2011 Simon Graeser*/
 
 /*
 This file is part of Pina.
@@ -21,5 +21,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace PINA_NAMESPACE{
 
+    XmlParser* XmlParser::environment =0;
 
 } //PINA_NAMESPACE

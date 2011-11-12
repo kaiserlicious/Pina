@@ -41,10 +41,10 @@ class Half_extents;
 */
 class THIS: public Element{
   public:
-  THIS(Document* d, TiXmlHandle h = TiXmlHandle(0));
+  THIS(Document* d, XmlElement* h = 0);
   std::string getName();
   ~THIS();
-  /*TiXmlElement* toTiXmlElement();*/
+  /*XmlElement* toXmlElement();*/
   static const std::string Name;
   void order();
   STATIC_CHECKED_FUNCTIONS;

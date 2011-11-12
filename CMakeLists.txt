@@ -9,11 +9,18 @@ set(CPACK_PACKAGE_VERSION_MINOR "1")
 set(CPACK_PACKAGE_VERSION_PATCH "0")
 
 #package system
-INCLUDE(CPack)
+include(CPack)
+include(CTest)
 
 #configuration
 include(CMakeConfig.txt)
 configure_file(Config.h.cmake ${CMAKE_SOURCE_DIR}/Config.h)
+
+#tests
+include(Tests/Tests.txt)
+
+#include current dir
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 #source files
 include(CMakeSources.txt)

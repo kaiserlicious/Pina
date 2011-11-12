@@ -28,7 +28,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Library_animation_clips
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, TiXmlHandle h):Element(d,h){
+THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
   /* attributes */
   createAttribute(attrib_id,"id");

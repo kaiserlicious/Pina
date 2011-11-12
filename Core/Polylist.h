@@ -36,7 +36,7 @@ namespace PINA_NAMESPACE{
 class THIS: public ElementHasInput_shared{
 
   public:
-  THIS(Document* d, TiXmlHandle h = TiXmlHandle(0));
+  THIS(Document* d, XmlElement* h = 0);
   std::string getName();
  ~THIS();
   static const std::string Name;
