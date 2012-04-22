@@ -21,7 +21,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef COLLADA_INSTANCE_VISUAL_SCENE_H
 #define COLLADA_INSTANCE_VISUAL_SCENE_H
 
-#include "../Abilities/IsInstance.h"
 #include "Extra.h"
 #include "Visual_scene.h"
 
@@ -31,10 +30,10 @@ namespace PINA_NAMESPACE{
 /**
 @brief Instanciates a visual_scene element
 */
-class THIS: public Element, public IsInstance<Visual_scene>{
+class THIS: public Element{
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+  std::string getName() const;
   ~THIS();
   static const std::string Name;
   void order();

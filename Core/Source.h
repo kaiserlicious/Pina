@@ -21,7 +21,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef COLLADA_SOURCE_H
 #define COLLADA_SOURCE_H
 
-#include "../Document.h"
 #include "../Element.h"
 #include "Asset.h"
 #include "Bool_array.h"
@@ -42,8 +41,8 @@ namespace PINA_NAMESPACE{
 */
 class THIS: public Element{
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+  std::string getName() const;
  ~THIS();
   static const std::string Name;
   void order();
@@ -93,7 +92,7 @@ class THIS: public Element{
 
     std::vector<T> vec;
     if(! getArray(acc->getSource(),vec)){
-      postToLog(new LogEntry<Enum::Error>(Name,"Cant find Source"));
+      error("Cant find Source");
       return false;
     }
 
@@ -142,7 +141,7 @@ class THIS: public Element{
     out.clear();
     Accessor* acc =0;
     if(!queryElement("technique_common",acc)){
-      postToLog(new LogEntry<Enum::Error>(Name,"Cant find accessor"));
+      error("Cant find accessor");
       return false;
     }
 
@@ -153,7 +152,7 @@ class THIS: public Element{
 
     std::vector<T> vec;
     if(! getArray(acc->getSource(),vec)){
-      postToLog(new LogEntry<Enum::Error>(Name,"getArray failed"));
+      error("getArray failed");
       return false;
     }
 
@@ -175,7 +174,7 @@ class THIS: public Element{
     out.clear();
     Accessor* acc =0;
     if(!queryElement("technique_common.accessor",acc)){
-      postToLog(new LogEntry<Enum::Error>(Name,"Cant find accessor"));
+      error("Cant find accessor");
       return false;
     }
 
@@ -185,7 +184,7 @@ class THIS: public Element{
 
     std::vector<T> vec;
     if(! getArray(acc->getSource(),vec)){
-      postToLog(new LogEntry<Enum::Error>(Name,"getArray failed"));
+      error("getArray failed");
       return false;
     }
 
@@ -201,69 +200,6 @@ class THIS: public Element{
   }
 
   private:
-
-  bool getArray(std::string str, std::vector<float>& out){
-    Float_array* array;
-    getDocument()->getByURL(array,str);
-    if(!array){return false;}
-    out = array->values;
-    return true;
-  }
-
-  bool getArray(std::string str, std::vector<int>& out){
-    Int_array* array;
-    getDocument()->getByURL(array,str);
-    if(!array){return false;}
-    out = array->values;
-    return true;
-  }
-
-  bool getArray(std::string str, std::vector<bool>& out){
-    Bool_array* array;
-    document->getByURL(array,str);
-    if(!array){return false;}
-    out = array->values;
-    return true;
-  }
-
-  bool getArray(std::string str, std::vector<std::string>& out){
-    switch(type){
-      case IDREF_ARRAY:{
-        IDREF_array* array;
-        document->getByURL(array,str);
-        if(!array){return false;}
-        out = array->values;
-        break;
-      }
-      case NAME_ARRAY:{
-        Name_array* array;
-        document->getByURL(array,str);
-        if(!array){return false;}
-        out = array->values;
-        break;
-      }
-      case SIDREF_ARRAY:{
-        SIDREF_array* array;
-        document->getByURL(array,str);
-        if(!array){return false;}
-        out = array->values;
-        break;
-      }
-      case TOKEN_ARRAY:{
-        Token_array* array;
-        document->getByURL(array,str);
-        if(!array){return false;}
-        out = array->values;
-        break;
-      }
-      default:{
-        return false;
-        break;
-      }
-    }
-    return true;
-  }
-
 };
 
 }/*PINA_NAMESPACE*/

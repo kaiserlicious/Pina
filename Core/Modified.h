@@ -31,8 +31,8 @@ namespace PINA_NAMESPACE{
 */
 class THIS: public Element{
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+  std::string getName() const;
   XmlElement* toXmlElement();
   ~THIS();
   static const std::string Name;

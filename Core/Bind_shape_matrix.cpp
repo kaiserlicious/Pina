@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Bind_shape_matrix
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, XmlElement* h):Element(d,h),matrix(Math::Matrix<float,4,4>::unionMatrix()){
+THIS::THIS(XmlElement* h):Element(h),matrix(Math::Matrix<float,4,4>::unionMatrix()){
 
   /* attributes */
 
@@ -38,7 +38,7 @@ THIS::THIS(Document* d, XmlElement* h):Element(d,h),matrix(Math::Matrix<float,4,
 
 }
 
-std::string THIS::getName(){
+std::string THIS::getName() const {
   return Name;
 }
 

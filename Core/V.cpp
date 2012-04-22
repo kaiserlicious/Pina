@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS V
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, XmlElement* h):Element(d,h){
+THIS::THIS(XmlElement* h):Element(h){
 
   /* attributes */
 
@@ -46,7 +46,7 @@ std::list<unsigned int> THIS::getIndices(unsigned int offset, unsigned int num_i
   return out;
 }
 
-std::string THIS::getName(){
+std::string THIS::getName() const {
   return Name;
 }
 

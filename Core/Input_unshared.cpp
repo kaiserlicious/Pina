@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Input_unshared
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, XmlElement* h):Element(d,h),IsInput(this){
+THIS::THIS(XmlElement* h):Element(h){
 
   /* attributes */
   createAttribute(attrib_semantic,"semantic");
@@ -34,7 +34,7 @@ THIS::THIS(Document* d, XmlElement* h):Element(d,h),IsInput(this){
 
 }
 
-std::string THIS::getName(){
+std::string THIS::getName() const {
   return Name;
 }
 

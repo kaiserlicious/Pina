@@ -21,7 +21,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef COLLADA_INSTANCE_GEOMETRY_H
 #define COLLADA_INSTANCE_GEOMETRY_H
 
-#include "../Abilities/IsInstance.h"
 #include "../FX/Bind_material.h" //(in FX)
 #include "Extra.h"
 #include "Geometry.h"
@@ -32,10 +31,10 @@ namespace PINA_NAMESPACE{
 /**
 @brief Instanciates a geometry element
 */
-class THIS: public Element, public IsInstance<Geometry>{
+class THIS: public Element{
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+  std::string getName() const;
   ~THIS();
   static const std::string Name;
   void order();

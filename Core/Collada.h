@@ -63,9 +63,32 @@ namespace PINA_NAMESPACE{
 */
 class THIS: public Element{
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  //THIS(XmlHandle* h);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+
+  /**
+    @brief Load a collada document from a file
+  */
+  bool load(std::string file);
+
+
+  Element* findById(Element* parent, const std::string& id){
+      std::vector<Element*> elements;
+      parent->getChildren(elements);
+      for(size_t i=0; i<elements.size(); i++){
+          std::string value;
+          if(elements[i]->queryAttributeValue("id",value) && value == id ){
+              return elements[i];
+          }
+          return findById(elements[i],id);
+      }
+      return 0;
+  }
+
+  Element* findById(const std::string& id){
+      return findById(this,id);
+  }
+
+  std::string getName() const;
   ~THIS();
   static const std::string Name;
   void order();

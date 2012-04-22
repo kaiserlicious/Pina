@@ -24,18 +24,20 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Unkown
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, XmlElement* h):Element(d,h){
+THIS::THIS(XmlElement* h):Element(h){
   XmlElement* element = handle;
   if( element ){
     /* determine the name of the unkown element */
     name = element->getName();
     /* attributes */
     std::string attribName, attribValue;
+    /*FIXME
     while(element->nextAttribute(attribName,attribValue)){
       postToLog(new LogEntry<Enum::Debug>(getName(),"Creating unknown attribute with name " + attribName + " with value " + attribValue));
-      /* must add attribute directly (not via addattribute) to avoid checking if element has such an attribute (...element has no attrbiute with name...) */
+      //must add attribute directly (not via addattribute) to avoid checking if element has such an attribute (...element has no attrbiute with name...)
       attributes.insert(std::make_pair(attribName,new Attribute<std::string>(attribName,attribValue)));
     }
+    */
     /* children */
     buildChildren(Types());
     /*data*/
@@ -44,7 +46,7 @@ THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
 }
 
-std::string THIS::getName(){
+std::string THIS::getName() const {
   return name;
 }
 

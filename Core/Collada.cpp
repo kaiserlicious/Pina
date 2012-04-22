@@ -54,7 +54,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Collada
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, XmlElement* h):Element(d,h){
+THIS::THIS(XmlElement* h):Element(h){
 
   /* attributes */
   createAttribute(attrib_xmlns,"xmlns");
@@ -66,7 +66,7 @@ THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
 }
 
-std::string THIS::getName(){
+std::string THIS::getName() const {
   return Name;
 }
 
@@ -75,6 +75,32 @@ void THIS::order(){ children.sort(Ordering<Types>()); }
 const std::string THIS::Name = "COLLADA";
 
 THIS::~THIS(){
+}
+
+bool THIS::load(std::string file){
+    XmlDocument* document = XmlParser::environment->newDocument();
+    if(!document->load(file)){
+        delete document;
+        return false;
+    }
+    XmlElement* root = document->getRootElement();
+    if(!root){
+        delete document;
+        return false;
+    }
+    handle = root;
+
+
+    /** attributes **/
+    createAttribute(attrib_xmlns,"xmlns");
+    createAttribute(attrib_version,"version");
+    createAttribute(attrib_base,"base");
+
+    /** child elements**/
+    buildChildren(Types());
+
+    delete document;
+    return true;
 }
 
 }/*PINA_NAMESPACE*/

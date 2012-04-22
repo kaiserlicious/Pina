@@ -27,7 +27,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <list>
 
-//#include "Tinyxml/tinyxml.h"
 #include "Xml/Xml.h"
 #include "Types/Attribute.h"
 #include "TypeInfo/TypeInfo.h"
@@ -36,18 +35,15 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "Templates/TypelistConstructor.h"
 #include "Templates/CompileTimeCheck.h"
 #include "Templates/Type2Type.h"
-#include "Log/Log.h"
 
 #define STATIC_CHECKED_FUNCTIONS
 
-namespace PINA_NAMESPACE{
-    class Document;
-}
+
 
 #define THIS Element
 namespace PINA_NAMESPACE{
 
-/*NOTE all string comparisons are case sensitive, this is correct because xml is case sensitve*/
+/*NOTE all string comparisons are case sensitive*/
 
 /**
 @brief The base class of all Elements.
@@ -67,7 +63,7 @@ public:
 
   A Element will be deleted when the Document it belongs to is deleted. Do not delete Elements by hand, as they could be used by other elements. To remove unwanted child elements use the removeElement function.
   */
-  THIS(Document* d, XmlElement* h = 0);
+  THIS(XmlElement* h = 0);
 
   /**
   @brief Remove a child element
@@ -83,7 +79,6 @@ public:
   @param element Pointer to the element that is added, must belong to the same Document
   @return Returns true if the element is successfully added, false otherwise.
 
-  To be successfully added the child must belong to the same Document it parent belongs to.
   */
   bool add(THIS* element);
 
@@ -234,11 +229,11 @@ public:
         return true;
       }
       else{
-        postToLog(new LogEntry<Enum::Error>(getName(),"Attribute has wrong type"));
+        warning("Attribute has wrong type");
       }
     }
     else{
-      postToLog(new LogEntry<Enum::Error>(getName(),"Element has no attribute with name "+attribute.getName()));
+      warning("Element has no attribute with name "+attribute.getName());
     }
     return false;
   }
@@ -290,7 +285,7 @@ public:
   @brief Get the name of the element
   @return A string containing the name of the element
   */
-  virtual std::string getName()=0;
+  virtual std::string getName() const=0;
 
   /**
   @brief Convert the element to a xml-element
@@ -318,12 +313,6 @@ public:
   */
   TypeInfo getType();
 
-  /**
-  @brief Get the Document the element belongs to
-  @return Pointer to the Document the element belongs to.
-  */
-  Document* getDocument() const;
-
 protected:
 
   /**
@@ -333,7 +322,7 @@ protected:
   void createAttribute(Attribute<T>& attrib, std::string name){
     attrib = Attribute<T>(name,handle);
     attributes[name] = &attrib;
-    postToLog(new LogEntry<Enum::Debug>(getName(),std::string("created Attribute ")+ name + " with value: " + attrib.toString()));
+    debug(std::string("created Attribute ")+ name + " with value: " + attrib.toString());
   }
 
   /** 
@@ -343,7 +332,7 @@ protected:
   void createAttribute(Attribute<T>& attrib, std::string name,T d){
     attrib = Attribute<T>(name,d,handle);
     attributes[name] = &attrib;
-    postToLog(new LogEntry<Enum::Debug>(getName(),"created Attribute " + name + " with value: " + attrib.toString()));
+    debug("created Attribute " + name + " with value: " + attrib.toString());
   }
 
   /**
@@ -356,8 +345,8 @@ protected:
   template<typename Head, typename Tail>
   THIS* createElement(Type2Type<Typelist<Head,Tail> >,std::string name, XmlElement* h){
     if(Head::Name == name){
-      postToLog(new LogEntry<Enum::Debug>(getName(),"Going to create " + Head::Name ));
-      return new Head(document,h);
+      debug("Going to create " + Head::Name );
+      return new Head(h);
     }
     else{
       return createElement(Type2Type<Tail>(),name,h);
@@ -368,13 +357,13 @@ protected:
   */
   THIS* createElement(Type2Type<NullType>,std::string name, XmlElement* h){
     #if PINA_ALLOW_UNDEFINED
-      postToLog(new LogEntry<Enum::Debug>(getName(),"Going to create unknown element with name: " + name ));
-      return buildUnkown(document,h);
+      debug("Going to create unknown element with name: " + name );
+      return buildUnkown(h);
     #endif
     return 0;
   }
 
-  static THIS* buildUnkown(Document* doc, XmlElement* h);
+  static THIS* buildUnkown(XmlElement* h);
 
   /**
   @brief Build the children of the element
@@ -382,44 +371,22 @@ protected:
   template<typename T>
   void buildChildren(T){
     if(handle){
-      XmlElement* element = handle->nextChild();
+      XmlElement* element = handle->firstChild();
       while( element ){
         std::string name = element->getName();
         add(createElement(Type2Type<T>(),name,element));
-        handle->nextChild();
+        element = handle->nextChild();
       }
     }
   }
 
-
-  /**
-  @brief Post a debug message to the log
-  */
-  void postToLog(LogEntry<Enum::Debug>* logEntry);
-
-  /**
-  @brief Post a info message to the log
-  */
-  void postToLog(LogEntry<Enum::Info>* logEntry);
-
-  /**
-  @brief Post a error message to the log
-  */
-  void postToLog(LogEntry<Enum::Error>* logEntry);
-
-  /**
-  @brief Post a severe message to the log
-  */
-  void postToLog(LogEntry<Enum::Severe>* logEntry);
-
-  /**
-  @brief Post a fatal message to the log
-  */
-  void postToLog(LogEntry<Enum::Fatal>* logEntry);
+  void debug( const std::string& ) const;
+  void warning( const std::string& ) const;
+  void error(const std::string& ) const;
+  void fatal( const std::string& ) const;
 
   /* data */
   XmlElement* handle; /// Handle to the xml element
-  Document* document; /// The document the element belongs to
   std::map<std::string,AbstractAttribute*> attributes; /// The attributes of the element
   std::list<std::pair<TypeInfo,THIS*> > children; /// The children of the element
 

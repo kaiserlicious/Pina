@@ -10,6 +10,12 @@
 int main(int args, char** argv){
     Pina::TinyXml::Parser parser;
     Pina::XmlParser::environment = &parser;
-    Pina::Document doc;
-    doc.collada->get(Pina::Collada::Name)->get("");
+    for(unsigned int i = 1; i<args; i++){
+        Pina::Collada collada;
+        bool ok = collada.load(argv[i]);
+        if(!ok){
+            std::cout << "Failed to load " << argv[i] << std::endl;
+            return EXIT_FAILURE;
+        }
+    }
 }

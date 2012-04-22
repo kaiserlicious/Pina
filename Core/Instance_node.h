@@ -21,7 +21,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef COLLADA_INSTANCE_NODE_H
 #define COLLADA_INSTANCE_NODE_H
 
-#include "../Abilities/IsInstance.h"
 #include "Extra.h"
 #include "Node.h"
 
@@ -31,10 +30,10 @@ namespace PINA_NAMESPACE{
 /**
 @brief Instanciates a node element
 */
-class THIS: public Element, public IsInstance<Node>{
+class THIS: public Element{
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+  std::string getName() const;
   ~THIS();
   static const std::string Name;
   void order();

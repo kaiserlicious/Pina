@@ -21,7 +21,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef COLLADA_INSTANCE_CAMERA_H
 #define COLLADA_INSTANCE_CAMERA_H
 
-#include "../Abilities/IsInstance.h"
 #include "Extra.h"
 #include "Camera.h"
 
@@ -33,10 +32,10 @@ class Camera;
 /**
 @brief Instanciates a camera element
 */
-class THIS: public Element, public IsInstance<Camera>{
+class THIS: public Element{
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+  std::string getName() const;
   ~THIS();
   static const std::string Name;
   void order();

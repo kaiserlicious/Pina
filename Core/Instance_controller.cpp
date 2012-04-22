@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Instance_controller
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, XmlElement* h):Element(d,h){
+THIS::THIS(XmlElement* h):Element(h){
 
   /* attributes */
   createAttribute(attrib_sid,"sid");
@@ -36,7 +36,7 @@ THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
 }
 
-std::string THIS::getName(){
+std::string THIS::getName() const {
   return Name;
 }
 

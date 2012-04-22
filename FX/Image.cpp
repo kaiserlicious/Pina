@@ -36,7 +36,7 @@ namespace PINA_NAMESPACE{
 
 
 
-THIS::THIS(Document* d, XmlElement* h):Element(d,h){
+THIS::THIS(XmlElement* h):Element(h){
 
   /* attributes */
   createAttribute(attrib_id,"id");
@@ -50,7 +50,7 @@ THIS::THIS(Document* d, XmlElement* h):Element(d,h){
 
 }
 
-std::string THIS::getName(){
+std::string THIS::getName() const {
   return Name;
 }
 

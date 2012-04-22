@@ -39,8 +39,8 @@ class Source_data;
 */
 class THIS: public Element{
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+  std::string getName() const;
   ~THIS();
   static const std::string Name;
   void order();

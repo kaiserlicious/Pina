@@ -23,7 +23,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../Element.h"
 #include "Source.h"
-#include "../Abilities/IsInput.h"
 
 #define THIS Input_shared
 namespace PINA_NAMESPACE{
@@ -31,10 +30,10 @@ namespace PINA_NAMESPACE{
 /**
 @brief Describes the sematics and source of an input
 */
-class THIS: public Element, public IsInput{
+class THIS: public Element{
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+  std::string getName() const;
   ~THIS();
   static const std::string Name;
   void order();

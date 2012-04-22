@@ -35,7 +35,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Setparam
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, XmlElement* h):Element(d,h){
+THIS::THIS(XmlElement* h):Element(h){
 
   /* attributes */
   createAttribute(attrib_ref,"ref");
@@ -44,7 +44,7 @@ THIS::THIS(Document* d, XmlElement* h):Element(d,h){
   buildChildren(Types());
 }
 
-std::string THIS::getName(){
+std::string THIS::getName() const {
   return Name;
 }
 

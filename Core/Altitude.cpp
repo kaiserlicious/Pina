@@ -21,12 +21,11 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #include "Altitude.h"
 #include "../Templates/Ordering.h"
 #include "../Utils/Utils.h"
-#include "../Document.h"
 
 #define THIS Altitude
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, XmlElement* h):Element(d,h){
+THIS::THIS(XmlElement* h):Element(h){
 
   /* attributes */
   createAttribute(attrib_mode,"mode",Enum::RELATIVE_TO_GROUND);
@@ -39,7 +38,7 @@ THIS::THIS(Document* d, XmlElement* h):Element(d,h){
   }
 }
 
-std::string THIS::getName(){
+std::string THIS::getName() const {
   return Name;
 }
 
@@ -51,7 +50,7 @@ THIS::~THIS(){
 }
 
 XmlElement* THIS::toXmlElement(){
-  XmlElement* element = getDocument()->createXmlElement(getName());
+  XmlElement* element = XmlParser::environment->newElement(getName());
   element->setText(Utils::toString(altitude));
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();

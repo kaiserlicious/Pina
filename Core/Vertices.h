@@ -22,17 +22,16 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define COLLADA_VERTICES_H
 
 #include "../Element.h"
-#include "../Abilities/ElementHasInput_unshared.h"
 #include "Input_unshared.h"
 #include "Extra.h"
 
 #define THIS Vertices
 namespace PINA_NAMESPACE{
 
-class THIS: public ElementWithInput_unshared{
+class THIS: public Element{
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+  std::string getName() const;
   ~THIS();
   static const std::string Name;
   void order();

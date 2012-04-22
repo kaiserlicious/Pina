@@ -22,7 +22,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define COLLADA_TRISTRIPS_H
 
 #include "../Element.h"
-#include "../Abilities/ElementHasVertexInput.h"
 #include "Input_shared.h"
 #include "P.h"
 #include "Extra.h"
@@ -34,11 +33,11 @@ namespace PINA_NAMESPACE{
 /**
 @brief Describes trisprip primitives.
 */
-class THIS: public ElementHasVertexInput{
+class THIS: public Element{
 
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+  std::string getName() const;
   ~THIS();
   static const std::string Name;
   void order();

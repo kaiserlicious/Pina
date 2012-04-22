@@ -24,7 +24,7 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define THIS Vertices
 namespace PINA_NAMESPACE{
 
-THIS::THIS(Document* d, XmlElement* h):ElementWithInput_unshared(d,h){
+THIS::THIS(XmlElement* h):Element(h){
 
   /* attributes */
   createAttribute(attrib_id,"id");
@@ -34,7 +34,7 @@ THIS::THIS(Document* d, XmlElement* h):ElementWithInput_unshared(d,h){
   buildChildren(Types());
 }
 
-std::string THIS::getName(){
+std::string THIS::getName() const {
   return Name;
 }
 

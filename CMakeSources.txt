@@ -1,13 +1,11 @@
 # very basic source files for pina
 SET(PINA_SRC_BASE
 Element.cpp
-Document.cpp
 )
 
 # very basic header files for pina
 SET(PINA_HEADERS_BASE
 Element.h
-Document.h
 Pina.h
 Config.h
 )
@@ -21,16 +19,6 @@ Math/Math.h
 Math/Matrix.h
 Math/Quaternion.h
 Math/Vector.h
-)
-
-#source files Log
-SET(PINA_SRC_LOG
-Log/Log.cpp
-)
-
-#header files Log
-SET(PINA_HEADERS_LOG
-Log/Log.h
 )
 
 SET(PINA_HEADERS_XML
@@ -53,24 +41,6 @@ Templates/Typelists.h
 )
 
 SET(PINA_SRC_TEMPLATES)
-
-#header files Abilities
-SET(PINA_HEADERS_ABILITIES
-Abilities/IsInput.h
-Abilities/IsInstance.h
-Abilities/ElementHasInput_shared.h
-Abilities/ElementHasInput_unshared.h
-Abilities/ElementHasVertexInput.h
-)
-
-#source files Abilities
-SET(PINA_SRC_ABILITIES
-Abilities/IsInput.cpp
-Abilities/IsInstance.cpp
-Abilities/ElementHasInput_shared.cpp
-Abilities/ElementHasInput_unshared.cpp
-Abilities/ElementHasVertexInput.cpp
-)
 
 #source files Utils
 SET(PINA_SRC_UTILS

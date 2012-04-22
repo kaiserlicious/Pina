@@ -20,8 +20,9 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Config.h"
 #include "Element.h"
-#include "Document.h"
+//#include "Document.h"
 #include "Core/Unkown.h"
+#include "Xml/Xml.h"
 
 #define THIS Element
 namespace PINA_NAMESPACE{
@@ -29,8 +30,8 @@ namespace PINA_NAMESPACE{
 
 class InvalidElement : public THIS{
   public:
-  InvalidElement():THIS(0,0){}
-  std::string getName(){return std::string(); }
+  InvalidElement():THIS(0){}
+  std::string getName() const {return std::string(); }
   void order(){}
   THIS* get(std::string){
     return this;
@@ -52,21 +53,12 @@ THIS* THIS::get(std::string name){
 }
 
 
-THIS::THIS(Document* d, XmlElement* h):handle(h),document(d){
-  //if(!d){
-  //  postToLog(new LogEntry<Enum::Fatal>("Element","Detected nullpointer as Document"));
-  //}
-    if(d){
-        document->elements.push_back(this);
-    }
+THIS::THIS(XmlElement* h):handle(h){
 }
 
-Document* THIS::getDocument() const{
-  return document;
-}
 
-THIS* THIS::buildUnkown(Document* doc, XmlElement* h){
-  return new Unkown(doc,h);
+THIS* THIS::buildUnkown(XmlElement* h){
+  return new Unkown(h);
 }
 
 bool THIS::removeElement(const THIS* element){
@@ -82,21 +74,19 @@ bool THIS::removeElement(const THIS* element){
 }
 
 bool THIS::add(THIS* element){
-  if(element){
-    if(element->document == document){
+    if(element){
       children.push_back(std::pair<TypeInfo,THIS*>(typeid(*element),element));
       return true;
     }
-  }
-  return false;
+    return false;
 }
 
 XmlElement* THIS::toXmlElement(){
-  XmlElement* element = document->createXmlElement(getName());
+  XmlElement* element = XmlParser::environment->newElement(getName());
   std::map<std::string,AbstractAttribute*>::iterator iter;
   iter = attributes.begin();
   while(iter != attributes.end()){
-    postToLog(new LogEntry<Enum::Info>(getName(),"looking for Attribute: " + iter->first));
+    debug("looking for Attribute: " + iter->first);
     if(iter->second->exists()){
       element->setAttribute(iter->first,iter->second->toString());
     }
@@ -106,7 +96,7 @@ XmlElement* THIS::toXmlElement(){
 }
 
 XmlElement* THIS::write(){
-  postToLog(new LogEntry<Enum::Debug>(getName(),"writing: " + getName()));
+  debug("writing: " + getName());
   order();
   XmlElement* self = toXmlElement();
   std::list<std::pair<TypeInfo,THIS*> >::iterator iter;
@@ -122,34 +112,17 @@ TypeInfo THIS::getType(){
   return typeid(*this);
 }
 
-void THIS::postToLog(LogEntry<Enum::Debug>* logEntry){
-  #if PINA_ENABLE_DEBUG_LOG
-   document->postLogEntry(logEntry);
-  #endif
+void THIS::debug( const std::string& message) const{
+    std::cout << getName() << ": " << message << std::endl;
 }
-
-void THIS::postToLog(LogEntry<Enum::Info>* logEntry){
-  #if PINA_ENABLE_INFO_LOG
-   document->postLogEntry(logEntry);
-  #endif
+void THIS::warning( const std::string& message) const{
+    std::cout << getName() << ": " << message << std::endl;
 }
-
-void THIS::postToLog(LogEntry<Enum::Error>* logEntry){
-  #if PINA_ENABLE_ERROR_LOG
-   document->postLogEntry(logEntry);
-  #endif
+void THIS::error(const std::string& message) const{
+    std::cout << getName() << ": " << message << std::endl;
 }
-
-void THIS::postToLog(LogEntry<Enum::Severe>* logEntry){
-  #if PINA_ENABLE_SEVERE_LOG
-   document->postLogEntry(logEntry);
-  #endif
-}
-
-void THIS::postToLog(LogEntry<Enum::Fatal>* logEntry){
-  #if PINA_ENABLE_FATAL_LOG
-   document->postLogEntry(logEntry);
-  #endif
+void THIS::fatal( const std::string& message) const{
+    std::cout << getName() << ": " << message << std::endl;
 }
 
 }/*PINA_NAMESPACE*/

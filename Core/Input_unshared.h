@@ -22,7 +22,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 #define COLLADA_INPUT_UNSHARED_H
 
 #include "../Element.h"
-#include "../Abilities/IsInput.h"
 #include "Source.h"
 
 #define THIS Input_unshared
@@ -31,10 +30,10 @@ namespace PINA_NAMESPACE{
 /**
 @brief Describes the sematics and source of an input
 */
-class THIS: public Element, public IsInput{
+class THIS: public Element{
   public:
-  THIS(Document* d, XmlElement* h = 0);
-  std::string getName();
+  THIS(XmlElement* h = 0);
+  std::string getName() const;
   ~THIS();
   static const std::string Name;
   void order();
