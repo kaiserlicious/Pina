@@ -45,6 +45,32 @@ namespace PINA_NAMESPACE{
 
 /*NOTE all string comparisons are case sensitive*/
 
+template<typename T>
+class ElementHandle{
+
+public:
+    ElementHandle():ptr(0){
+    }
+    ElementHandle(T* t):ptr(t){
+    }
+
+    template<typename TYPE>
+    ElementHandle<TYPE> get(){
+        return ptr ? ptr->get<TYPE>() : ElementHandle<TYPE>();
+    }
+
+    T* toElement(){
+        return ptr;
+    }
+
+    operator T* (){
+        return ptr;
+    }
+
+private:
+    T* ptr;
+};
+
 /**
 @brief The base class of all Elements.
 */
@@ -54,7 +80,11 @@ friend class Document;
 
 public:
 
-  virtual THIS* get(std::string name);
+    template<typename T>
+    ElementHandle<T> get(){
+        T* t=0;
+        return queryElement(t) ? ElementHandle<T>(t) : ElementHandle<T>();
+    }
 
   /**
   @brief The constructor
@@ -391,7 +421,6 @@ protected:
   std::list<std::pair<TypeInfo,THIS*> > children; /// The children of the element
 
 }; /* End of class */
-
 
 }/*PINA_NAMESPACE*/
 #undef THIS

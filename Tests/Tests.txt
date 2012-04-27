@@ -6,5 +6,5 @@ target_link_libraries(fileLoading pina)
 add_executable(simpleNavigation Tests/SimpleNavigation.cpp)
 target_link_libraries(simpleNavigation pina)
 
-add_test(FileLoading fileLoading ${CMAKE_CURRENT_SOURCE_DIR}/Tests/TestData/SimpleBox.dae)
-add_test(SimpleNaviagtion simpleNavigation ${CMAKE_CURRENT_SOURCE_DIR}/Tests/TestData/SimpleBox.dae)
+add_test(FileLoading fileLoading ${CMAKE_CURRENT_SOURCE_DIR}/Tests/TestData/SimpleCube.dae)
+add_test(SimpleNaviagtion simpleNavigation ${CMAKE_CURRENT_SOURCE_DIR}/Tests/TestData/SimpleCube.dae)

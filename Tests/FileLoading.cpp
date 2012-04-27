@@ -14,7 +14,7 @@ int main(int args, char** argv){
         Pina::Collada collada;
         bool ok = collada.load(argv[i]);
         if(!ok){
-            std::cout << "Failed to load " << argv[i] << std::endl;
+            std::cerr << "Failed to load " << argv[i] << std::endl;
             return EXIT_FAILURE;
         }
     }

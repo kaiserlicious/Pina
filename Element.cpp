@@ -28,31 +28,6 @@ along with Pina.  If not, see <http://www.gnu.org/licenses/>.
 namespace PINA_NAMESPACE{
 
 
-class InvalidElement : public THIS{
-  public:
-  InvalidElement():THIS(0){}
-  std::string getName() const {return std::string(); }
-  void order(){}
-  THIS* get(std::string){
-    return this;
-  }
-  static InvalidElement instance;
-};
-
-InvalidElement InvalidElement::instance = InvalidElement();
-
-
-THIS* THIS::get(std::string name){
-  std::list<std::pair<TypeInfo,Element*> >::iterator iter;
-  for(iter = children.begin();iter != children.end(); iter++){
-    if(iter->second->getName() == name){
-        return iter->second;
-      }
-    }
-    return &InvalidElement::instance;
-}
-
-
 THIS::THIS(XmlElement* h):handle(h){
 }
 

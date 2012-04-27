@@ -27,6 +27,12 @@ int main(int args, char** argv){
             std::cout << "Failed to navigate to created or modified element in file " << argv[i] << std::endl;
             return EXIT_FAILURE;
         }
+
+        created = collada.get<Pina::Asset>().get<Pina::Created>();
+        if(!created){
+            std::cout << "Failed to navigate to created in file " << argv[i] << "using Get method" << std::endl;
+            return EXIT_FAILURE;
+        }
         Pina::Collada* falseElmement =0;
         if(asset->queryElement(falseElmement)){
             return EXIT_FAILURE;
