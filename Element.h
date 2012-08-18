@@ -56,7 +56,7 @@ public:
 
     template<typename TYPE>
     ElementHandle<TYPE> get(){
-        return ptr ? ptr->get<TYPE>() : ElementHandle<TYPE>();
+        return ptr ? ptr->template get<TYPE>() : ElementHandle<TYPE>();
     }
 
     T* toElement(){
